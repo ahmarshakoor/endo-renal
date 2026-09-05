@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRE & NUMS Exam - Endocrinology & Renal (100 MCQs)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .option-btn { transition: all 0.2s ease-in-out; }
+        .correct-selected { background-color: #10B981 !important; color: white !important; border-color: #059669 !important; }
+        .wrong-selected { background-color: #EF4444 !important; color: white !important; border-color: #DC2626 !important; }
+        .correct-unselected { background-color: #D1FAE5 !important; border-color: #10B981 !important; color: #065F46 !important; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-700 px-3 py-1.5 rounded-lg font-bold text-xl tracking-wider">NRE</div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">NRE & NUMS 100 MCQ Board Exam</h1>
+                    <p class="text-xs text-indigo-200">50 Endocrinology + 50 Renal & Urology • Interactive Quiz with Auto-Save</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 mt-2 sm:mt-0">
+                <div class="bg-indigo-800 px-3 py-1.5 rounded-lg text-sm text-center">
+                    <span class="text-xs text-indigo-300 block">Score</span>
+                    <span id="score-counter" class="font-bold text-green-400">0 / 0</span>
+                </div>
+                <div class="bg-indigo-800 px-3 py-1.5 rounded-lg text-sm text-center">
+                    <span class="text-xs text-indigo-300 block">Progress</span>
+                    <span id="progress-counter" class="font-bold text-yellow-300">0 / 100</span>
+                </div>
+                <button id="reset-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">
+                    Reset State
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow flex flex-col md:flex-row gap-6 w-full">
+
+        <!-- Sidebar / Controls -->
+        <aside class="w-full md:w-1/4 space-y-4">
+            <!-- Filter Panel -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="font-bold text-slate-700 mb-2 text-sm uppercase tracking-wide">Filter Discipline</h2>
+                <select id="discipline-filter" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <option value="ALL">All Subjects (100 MCQs)</option>
+                    <option value="Endocrinology">Endocrinology (50 MCQs)</option>
+                    <option value="Renal & Urology">Renal & Urology (50 MCQs)</option>
+                </select>
+            </div>
+
+            <!-- Question Grid Navigation -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 max-h-[500px] flex flex-col">
+                <h2 class="font-bold text-slate-700 mb-2 text-sm uppercase tracking-wide">Question Navigator</h2>
+                <div id="question-grid" class="grid grid-cols-5 gap-1.5 overflow-y-auto p-1 flex-grow">
+                    <!-- Dynamic Grid -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Question Section -->
+        <section class="w-full md:w-3/4 flex flex-col">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex-grow flex flex-col justify-between">
+                <div>
+                    <!-- Metadata Header -->
+                    <div class="flex justify-between items-center mb-4 border-b pb-3">
+                        <span id="question-number-badge" class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-1 rounded-full">
+                            Question 1 of 100
+                        </span>
+                        <div class="space-x-2">
+                            <span id="subject-badge" class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                Category
+                            </span>
+                            <span id="source-badge" class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                Source
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Question Prompt -->
+                    <div id="question-text" class="text-slate-800 font-medium text-lg mb-6 leading-relaxed">
+                        Loading...
+                    </div>
+
+                    <!-- Answer Options -->
+                    <div id="options-container" class="space-y-3 mb-6">
+                        <!-- Options Rendered Dynamically -->
+                    </div>
+
+                    <!-- High-Yield Structured Clinical Breakdown Box -->
+                    <div id="explanation-box" class="hidden rounded-xl border border-blue-200 bg-blue-50/70 p-5 text-sm text-slate-800 mb-6 space-y-4">
+                        <div class="flex items-center space-x-2 text-indigo-900 font-bold border-b border-blue-200 pb-2">
+                            <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"></path></svg>
+                            <span class="text-base">Clinical Rationale & Board High-Yields</span>
+                        </div>
+
+                        <!-- Core Rationale -->
+                        <div>
+                            <span class="font-bold text-indigo-900 block mb-1">Explanation:</span>
+                            <p id="exp-core" class="leading-relaxed text-slate-700"></p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 border-t border-blue-200">
+                            <!-- Signs & Symptoms / Triads -->
+                            <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                <span class="font-bold text-indigo-800 text-xs uppercase block mb-1">Clinical Signs, Symptoms & Triads</span>
+                                <p id="exp-triad" class="text-xs text-slate-700 leading-snug"></p>
+                            </div>
+
+                            <!-- Initial vs Diagnostic Tests -->
+                            <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                <span class="font-bold text-indigo-800 text-xs uppercase block mb-1">Initial & Diagnostic Workup</span>
+                                <ul class="text-xs text-slate-700 space-y-1">
+                                    <li><strong class="text-slate-900">Initial:</strong> <span id="exp-init"></span></li>
+                                    <li><strong class="text-slate-900">Definitive/Gold Standard:</strong> <span id="exp-diag"></span></li>
+                                </ul>
+                            </div>
+
+                            <!-- 1st Line vs Definitive Treatment -->
+                            <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                <span class="font-bold text-indigo-800 text-xs uppercase block mb-1">Therapeutic Management</span>
+                                <ul class="text-xs text-slate-700 space-y-1">
+                                    <li><strong class="text-slate-900">1st Line:</strong> <span id="exp-firstline"></span></li>
+                                    <li><strong class="text-slate-900">Definitive:</strong> <span id="exp-defline"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Navigation -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                    <button id="prev-btn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-sm rounded-lg transition disabled:opacity-50">
+                        Previous
+                    </button>
+                    <button id="next-btn" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition shadow-sm">
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const STORAGE_KEY = "NRE_ENDO_RENAL_EXAM_V1";
+
+        // 100 Board-Style MCQs: 50 Endocrinology (NRE + NUMS) + 50 Renal/Urology (NRE + NUMS)
+        const rawExamQuestions = [
+            // --- ENDOCRINOLOGY (50 MCQs) ---
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 42-year-old female presents with weight loss, heat intolerance, fine hand tremors, and exophthalmos. Serum TSH is undetectable and free T4 is elevated. Diffuse radioiodine uptake is observed on thyroid scan. What is the diagnosis?",
+                options: ["Graves' Disease", "Subacute Granulomatous Thyroiditis", "Toxic Multinodular Goiter", "Hashimoto's Thyroiditis"],
+                correct: 0,
+                exp: "Graves' disease is an autoimmune condition caused by Thyroid-Stimulating Immunoglobulin (TSI) autoantibodies activating the TSH receptor, leading to hyperthyroidism, diffuse goiter, and ophthalmopathy.",
+                triad: "Merseburg Triad: Exophthalmos, Goiter, Tachycardia/Tremors.",
+                init: "Serum TSH and Free T4 levels.",
+                diag: "Thyroid Stimulating Immunoglobulin (TSI) assay or Radioactive Iodine Uptake (RAIU) scan showing diffuse increase.",
+                firstline: "Beta-blockers (Propranolol) for symptom control + Antithyroid drugs (Methimazole or PTU).",
+                defline: "Radioactive Iodine (RAI) ablation or Total Thyroidectomy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 28-year-old pregnant female at 10 weeks gestation presents with classic hyperthyroid symptoms. Which antithyroid drug is preferred in the first trimester?",
+                options: ["Methimazole", "Propylthiouracil (PTU)", "Radioactive Iodine 131", "Lugol's Iodine"],
+                correct: 1,
+                exp: "Propylthiouracil (PTU) is preferred in the 1st trimester of pregnancy because Methimazole is associated with teratogenic effects (aplasia cutis and choanal atresia). Methimazole is switched in the 2nd trimester to avoid PTU-induced hepatotoxicity.",
+                triad: "Thyrotoxicosis in Pregnancy: Weight loss, Heat intolerance, Palpitations.",
+                init: "Serum TSH and Free T4.",
+                diag: "Clinical diagnosis + Thyroid Function Tests (RAIU is strictly contraindicated in pregnancy).",
+                firstline: "Propylthiouracil (PTU) during 1st trimester.",
+                defline: "Thionamide medical management through pregnancy (or subtotal thyroidectomy in 2nd trimester if drug-intolerant)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 35-year-old female presents with fatigue, cold intolerance, constipation, weight gain, and dry skin. On exam, delayed relaxation of deep tendon reflexes is noted. What is the most common cause of this condition worldwide in non-endemic areas?",
+                options: ["Iodine deficiency", "Hashimoto's Thyroiditis", "Subacute De Quervain's Thyroiditis", "Reidel Thyroiditis"],
+                correct: 1,
+                exp: "Hashimoto's (chronic lymphocytic) thyroiditis is the primary cause of hypothyroidism in iodine-sufficient areas. Autoantibodies target Thyroid Peroxidase (anti-TPO) and Thyroglobulin.",
+                triad: "Hypothyroid Triad: Cold intolerance, Constipation, Delayed reflex relaxation (Hung-up reflexes).",
+                init: "Serum TSH (elevated) and Free T4 (low).",
+                diag: "Anti-TPO and Anti-Thyroglobulin antibody titers.",
+                firstline: "Levothyroxine (synthetic T4) monotherapy.",
+                defline: "Lifelong Levothyroxine replacement therapy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 30-year-old female presents with painful thyroid enlargement 2 weeks after a viral upper respiratory tract infection. ESR is 95 mm/hr and radioiodine uptake is low (<1%). What is the diagnosis?",
+                options: ["Graves' Disease", "Subacute Granulomatous (De Quervain's) Thyroiditis", "Reidel Fibrosing Thyroiditis", "Suppurative Thyroiditis"],
+                correct: 1,
+                exp: "Subacute De Quervain's thyroiditis is a post-viral granulomatous inflammation causing neck pain, transient hyperthyroidism, high ESR, and suppressed radioiodine uptake due to follicular cell destruction.",
+                triad: "De Quervain's Triad: Anterior neck pain/tenderness, Post-viral fever, High ESR.",
+                init: "Serum TSH, Free T4, and ESR.",
+                diag: "Radioactive Iodine Uptake (RAIU) scan (shows low/suppressed uptake).",
+                firstline: "NSAIDs (Ibuprofen) for mild cases; Oral Prednisone for severe pain.",
+                defline: "Self-limiting condition; conservative therapy until resolution."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 55-year-old female with long-standing rheumatoid arthritis presents with a woody, stone-hard, fixed anterior neck mass causing stridor and dysphagia. Biopsy shows dense fibrous tissue invading surrounding structures. What is the diagnosis?",
+                options: ["Anaplastic Thyroid Cancer", "Riedel Thyroiditis", "Hashimoto Thyroiditis", "Medullary Thyroid Carcinoma"],
+                correct: 1,
+                exp: "Riedel thyroiditis is a rare IgG4-related systemic disease characterized by dense fibrous replacement of the thyroid parenchyma extending into adjacent cervical structures, mimicking carcinoma.",
+                triad: "Riedel Triad: Stone-hard thyroid, Cervical compressive symptoms (dyspnea/dysphagia), IgG4 systemic involvement.",
+                init: "Thyroid Ultrasound and Serum TSH.",
+                diag: "Core needle or Open surgical biopsy (demonstrates dense IgG4-positive fibrosis).",
+                firstline: "Glucocorticoids (Prednisone) ± Tamoxifen.",
+                defline: "Surgical decompression (isthmusectomy) for tracheal compromise."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "Which thyroid cancer subtype is characterized histopathologically by Orphan Annie eye nuclei, nuclear grooves, and psammoma bodies?",
+                options: ["Follicular Carcinoma", "Papillary Thyroid Carcinoma", "Medullary Carcinoma", "Anaplastic Carcinoma"],
+                correct: 1,
+                exp: "Papillary Thyroid Carcinoma (PTC) is the most common thyroid malignancy (~80%). It classically features ground-glass Orphan Annie nuclei, intra-nuclear inclusions, and calcified psammoma bodies.",
+                triad: "PTC Presentation: Asymptomatic painless thyroid nodule, Cervical lymphadenopathy, Normal TSH.",
+                init: "Thyroid Ultrasound.",
+                diag: "Fine Needle Aspiration Cytology (FNAC).",
+                firstline: "Total or Subtotal Thyroidectomy.",
+                defline: "Surgical resection followed by Radioactive Iodine (RAI 131) ablation and TSH suppression."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 45-year-old male with a solitary thyroid nodule has an FNAC demonstrating follicular cells arranged in microfollicles. What step is mandatory to differentiate Follicular Adenoma from Follicular Carcinoma?",
+                options: ["Serum Thyroglobulin measurement", "BRAF gene mutation analysis", "Histopathological demonstration of capsular or vascular invasion", "Radioactive Iodine scan"],
+                correct: 2,
+                exp: "Fine Needle Aspiration Cytology (FNAC) cannot distinguish follicular adenoma from follicular carcinoma because capsular and/or vascular invasion must be evaluated on full histopathological sectioning.",
+                triad: "Follicular Neoplasm: Solitary cold nodule, Normal thyroid function, Hematogenous spread risk.",
+                init: "Thyroid Ultrasound and FNAC.",
+                diag: "Histopathological evaluation following surgical resection (demonstrating capsular/vascular penetration).",
+                firstline: "Thyroid Lobectomy / Diagnostic Hemithyroidectomy.",
+                defline: "Total Thyroidectomy with post-op Radioactive Iodine (RAI) ablation."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 50-year-old male with a family history of pheochromocytoma presents with a thyroid nodule. Calcitonin levels are markedly elevated. Biopsy reveals sheets of cells in an amyloid stroma. What is the diagnosis?",
+                options: ["Medullary Thyroid Carcinoma", "Papillary Thyroid Carcinoma", "Anaplastic Thyroid Carcinoma", "Hurthle Cell Carcinoma"],
+                correct: 0,
+                exp: "Medullary Thyroid Carcinoma (MTC) originates from parafollicular C-cells and secretes calcitonin. Histopathology demonstrates extracellular amyloid deposits (derived from calcitonin pro-peptides). It is associated with MEN 2A/2B.",
+                triad: "MEN 2A Triad: Medullary thyroid carcinoma, Pheochromocytoma, Hyperparathyroidism.",
+                init: "Serum Calcitonin and Carcinoembryonic Antigen (CEA) levels.",
+                diag: "FNAC showing amyloid stroma and calcitonin immunostaining.",
+                firstline: "Total Thyroidectomy with central neck lymph node dissection.",
+                defline: "Surgical clearance (MTC does NOT concentrate radioactive iodine)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 78-year-old female presents with a rapidly enlarging, painful anterior neck mass causing severe dyspnea, hoarseness, and stridor over 3 weeks. Biopsy shows highly pleomorphic giant and spindle cells. What is the diagnosis?",
+                options: ["Anaplastic Thyroid Carcinoma", "Papillary Thyroid Carcinoma", "Thyroid Lymphoma", "Riedel Thyroiditis"],
+                correct: 0,
+                exp: "Anaplastic thyroid carcinoma is an extremely aggressive tumor in elderly individuals presenting with rapid local invasion, compression symptoms, and a grim prognosis.",
+                triad: "Anaplastic Triad: Rapidly growing neck mass, Compressive stridor/dysphagia, Anaplastic histology.",
+                init: "CT Scan of Neck and Chest.",
+                diag: "Core needle or incisional biopsy.",
+                firstline: "Airway protection (tracheostomy if needed) + Palliative Chemoradiation.",
+                defline: "Palliative surgical debulking (complete resection is rarely feasible)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A patient presents with central obesity, purple abdominal striae, buffalo hump, moon facies, hypertension, and proximal muscle weakness. What is the most appropriate initial screening test for Cushing Syndrome?",
+                options: ["Serum ACTH level", "24-hour Urinary Free Cortisol or Low-Dose Dexamethasone Suppression Test", "High-Dose Dexamethasone Suppression Test", "Pituitary MRI"],
+                correct: 1,
+                exp: "Screening for hypercortisolism requires proving loss of diurnal rhythm or resistance to feedback: 24-hr urinary free cortisol, overnight 1mg low-dose dexamethasone suppression test, or late-night salivary cortisol.",
+                triad: "Cushing Triad: Central obesity/Moon facies, Purple striae, Proximal myopathy/Hypertension.",
+                init: "Overnight Low-Dose (1mg) Dexamethasone Suppression Test or 24-hr Urinary Free Cortisol.",
+                diag: "Plasma ACTH levels (distinguishes ACTH-dependent vs independent), followed by High-Dose Dexamethasone test or MRI/CT.",
+                firstline: "Surgical excision of the underlying cause (Pituitary adenoma, Adrenal tumor, or Ectopic source).",
+                defline: "Transsphenoidal Pituitary Resection (for Cushing's Disease) or Adrenalectomy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "In a patient confirmed to have Cushing Syndrome, serum ACTH is suppressed (<5 pg/mL). What is the next diagnostic imaging step?",
+                options: ["Pituitary MRI", "CT Scan of Adrenal Glands", "CT Scan of Chest/Abdomen for ectopic ACTH", "High-Dose Dexamethasone Suppression Test"],
+                correct: 1,
+                exp: "Suppressed ACTH indicates ACTH-independent Cushing syndrome (primary adrenal adenoma, carcinoma, or nodular hyperplasia). Abdominal CT targeting the adrenal glands is the next logical step.",
+                triad: "ACTH-Independent Cushing's: Cushingoid features, Low ACTH, High Cortisol.",
+                init: "Low-Dose Dexamethasone Suppression Test + Plasma ACTH level.",
+                diag: "Non-contrast Abdominal CT of Adrenal Glands.",
+                firstline: "Adrenalectomy (Unilateral for adenoma/carcinoma).",
+                defline: "Laparoscopic or Open Adrenalectomy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 35-year-old female presents with hyperpigmentation of palmar creases and oral mucosa, fatigue, weight loss, orthostatic hypotension, and cravings for salty food. Serum sodium is 128 mEq/L and potassium is 5.8 mEq/L. What is the diagnosis?",
+                options: ["Primary Adrenal Insufficiency (Addison's Disease)", "Secondary Adrenal Insufficiency", "Conn's Syndrome", "Cushing's Disease"],
+                correct: 0,
+                exp: "Addison's disease (primary adrenal insufficiency) causes loss of cortisol and aldosterone. High ACTH causes hyperpigmentation via MSH co-stimulation. Aldosterone deficiency leads to hyponatremia, hyperkalemia, and salt wasting.",
+                triad: "Addisonian Triad: Mucocutaneous Hyperpigmentation, Hypotension, Hyponatremia/Hyperkalemia.",
+                init: "8 AM Serum Cortisol and Plasma ACTH level.",
+                diag: "ACTH Stimulation Test (Cosyntropin test showing failure of cortisol rise).",
+                firstline: "Glucocorticoid (Hydrocortisone) + Mineralocorticoid (Fludrocortisone) replacement.",
+                defline: "Lifelong Hydrocortisone and Fludrocortisone therapy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A patient with primary adrenal insufficiency presents to the ER with severe abdominal pain, vomiting, confusion, hypotension (BP 70/40 mmHg), and fever. What is the immediate priority intervention?",
+                options: ["Perform ACTH stimulation test", "IV Bolus of Hydrocortisone (100mg) and IV Normal Saline 0.9%", "Oral Fludrocortisone", "Broad-spectrum antibiotics only"],
+                correct: 1,
+                exp: "Addisonian crisis is a life-threatening emergency. Immediate IV Hydrocortisone (100mg bolus) and aggressive fluid resuscitation with 0.9% Normal Saline must be given immediately without delaying for diagnostic tests.",
+                triad: "Adrenal Crisis Triad: Refractory Hypotension, Abdominal Pain, Hypoglycemia/Hyponatremia.",
+                init: "Immediate bedside blood glucose and serum electrolytes.",
+                diag: "Clinical diagnosis; confirm with baseline cortisol/ACTH draw (do NOT delay treatment).",
+                firstline: "IV Hydrocortisone 100mg stat + Rapid IV Normal Saline infusion.",
+                defline: "Maintenance Hydrocortisone tapering to oral regimen once stable."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 45-year-old male presents with refractory hypertension, muscle weakness, and fatigue. Lab evaluation shows serum K+ 2.8 mEq/L, suppressed plasma renin activity, and elevated plasma aldosterone concentration. What is the diagnosis?",
+                options: ["Primary Hyperaldosteronism (Conn's Syndrome)", "Renal Artery Stenosis", "Pheochromocytoma", "Cushing's Syndrome"],
+                correct: 0,
+                exp: "Conn's syndrome (Primary Hyperaldosteronism) is characterized by autonomous aldosterone hypersecretion (adrenal adenoma or bilateral hyperplasia), causing sodium retention, hypertension, hypokalemia, and low renin.",
+                triad: "Conn's Triad: Hypertension, Hypokalemia, Suppressed Plasma Renin Activity.",
+                init: "Aldosterone-to-Renin Ratio (ARR > 20-30).",
+                diag: "Oral or IV Salt Loading Confirmation Test, followed by Adrenal CT scan.",
+                firstline: "Spironolactone or Eplerenone (for bilateral hyperplasia).",
+                defline: "Laparoscopic Adrenalectomy (for unilateral aldosterone-producing adenoma)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 38-year-old patient presents with episodic severe headaches, diaphoresis, and tachycardia. BP during episodes reaches 220/120 mmHg. What is the primary initial diagnostic screening test for this condition?",
+                options: ["24-hour Urinary Fractionated Metanephrines and Catecholamines", "Renal Artery Duplex", "Serum Aldosterone", "Abdominal CT Scan"],
+                correct: 0,
+                exp: "Pheochromocytoma is a catecholamine-secreting chromaffin cell tumor of the adrenal medulla. Free plasma metanephrines or 24-hour urinary metanephrines are sensitive screening tests.",
+                triad: "Pheochromocytoma Triad: Episodic Headache, Diaphoresis (sweating), Tachycardia/Palpitations.",
+                init: "24-hour Urinary Fractionated Metanephrines or Plasma Free Metanephrines.",
+                diag: "Abdominal/Pelvic CT or MRI (after biochemical confirmation).",
+                firstline: "Alpha-blockers (Phenoxybenzamine) for 10-14 days BEFORE Beta-blockers.",
+                defline: "Laparoscopic Adrenalectomy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "In managing a patient with pheochromocytoma prior to surgery, why must alpha-adrenergic blockade be instituted before beta-blocker administration?",
+                options: ["To prevent severe reflex bradycardia", "To prevent unopposed alpha-mediated vasoconstriction and hypertensive crisis", "To prevent sudden hypoglycemia", "To reduce tumor size"],
+                correct: 1,
+                exp: "If a beta-blocker is given first, blocked vascular beta-2 vasodilatory receptors leave alpha-1 vasoconstrictive receptors unopposed, precipitating fatal hypertensive crisis.",
+                triad: "Pre-op Pheo Management: Phenoxybenzamine first, Propranolol second, Volume expansion third.",
+                init: "24-hour Urinary Metanephrines.",
+                diag: "Adrenal CT/MRI.",
+                firstline: "Phenoxybenzamine (irreversible alpha-blocker).",
+                defline: "Surgical tumor resection."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A newborn infant presents with ambisexual/ambiguous genitalia, vomiting, dehydration, and hypotension at day 10 of life. Labs reveal hyponatremia, hyperkalemia, elevated 17-hydroxyprogesterone. What is the enzyme deficiency?",
+                options: ["11-beta-hydroxylase", "21-hydroxylase", "17-alpha-hydroxylase", "3-beta-hydroxysteroid dehydrogenase"],
+                correct: 1,
+                exp: "21-hydroxylase deficiency accounts for >90% of Congenital Adrenal Hyperplasia (CAH). Impaired cortisol and aldosterone synthesis leads to salt-wasting and excess androgen production (virilization in females).",
+                triad: "Salt-Wasting CAH Triad: Virilization/Ambiguous Genitalia, Salt wasting (Hyponatremia/Hyperkalemia), Elevated 17-OHP.",
+                init: "Serum 17-Hydroxyprogesterone (17-OHP) level.",
+                diag: "ACTH Stimulation Test showing marked accumulation of 17-OHP.",
+                firstline: "IV fluids + Hydrocortisone + Fludrocortisone.",
+                defline: "Lifelong Hydrocortisone and Mineralocorticoid replacement ± surgical reconstructive surgery."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 45-year-old male complains of increasing hat and shoe size, coarsening of facial features, macroglossia, and severe joint pain. What is the single best initial screening test?",
+                options: ["Fasting Growth Hormone (GH) level", "Serum Insulin-like Growth Factor 1 (IGF-1)", "Oral Glucose Tolerance Test with GH measurement", "Pituitary MRI"],
+                correct: 1,
+                exp: "IGF-1 has a stable circulating half-life, making it the superior screening test for Acromegaly. GH secretion fluctuates pulsatilely and is unreliable as a single measure.",
+                triad: "Acromegaly Triad: Acral enlargement (hands/feet), Coarse facial features, Bitemporal hemianopia.",
+                init: "Serum IGF-1 level.",
+                diag: "Oral Glucose Tolerance Test (OGTT) demonstrating failure of GH suppression (< 1 mcg/L).",
+                firstline: "Transsphenoidal Pituitary Adenomectomy.",
+                defline: "Surgical excision of GH-secreting somatotroph adenoma (Somatostatin analogs like Octreotide if unresectable)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A patient with acromegaly undergoes an Oral Glucose Tolerance Test (OGTT). What finding confirms the diagnosis?",
+                options: ["Inability to suppress serum GH levels below 1 ng/mL after 75g glucose load", "Suppression of GH to zero", "Spike in ACTH level", "Decrease in IGF-1 level"],
+                correct: 0,
+                exp: "Glucose loading normally suppresses pituitary GH release. In acromegaly, autonomous secretion by somatotroph adenoma fails to suppress GH below 1 ng/mL.",
+                triad: "Acromegaly Features: Mandibular prognathism, Hyperhidrosis, Insulin resistance/Diabetes.",
+                init: "Serum IGF-1.",
+                diag: "75g OGTT with failure of GH suppression.",
+                firstline: "Transsphenoidal Resection.",
+                defline: "Transsphenoidal Resection."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 28-year-old female presents with secondary amenorrhea, galactorrhea, and infertility. Serum prolactin is 180 ng/mL. Pregnancy test is negative. What is the imaging test of choice?",
+                options: ["Transvaginal Ultrasound", "Gadolinium-enhanced Pituitary MRI", "CT Scan of Brain", "Mammography"],
+                correct: 1,
+                exp: "Hyperprolactinemia presenting with amenorrhea/galactorrhea warrants pituitary MRI to identify lactotroph microadenomas (<10mm) or macroadenomas (≥10mm).",
+                triad: "Prolactinoma Triad: Galactorrhea, Amenorrhea/Oligomenorrhea, Visual field defect (if macroadenoma).",
+                init: "Serum Prolactin level (and rule out pregnancy/hypothyroidism).",
+                diag: "Pituitary MRI with contrast.",
+                firstline: "Dopamine Agonists (Cabergoline or Bromocriptine).",
+                defline: "Medical therapy with Cabergoline (Transsphenoidal surgery if medical refractory or causing progressive vision loss)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 32-year-old male with a 2.5 cm prolactinoma presents with bitemporal hemianopia. What is the first-line therapeutic management?",
+                options: ["Emergency Transsphenoidal Surgery", "Cabergoline (Dopamine Agonist) medical therapy", "External Beam Radiotherapy", "Stereotactic Radiosurgery"],
+                correct: 1,
+                exp: "Unlike other functional pituitary tumors, Prolactinomas (even large macroadenomas with visual deficits) are treated FIRST-LINE with Dopamine Agonists (Cabergoline), which rapidly shrink tumor size and improve vision.",
+                triad: "Macroadenoma Triad: Galactorrhea/Hypogonadism, Headache, Bitemporal Hemianopia.",
+                init: "Serum Prolactin.",
+                diag: "Pituitary MRI.",
+                firstline: "Cabergoline or Bromocriptine.",
+                defline: "Transsphenoidal surgery reserved for failure or intolerance of medical therapy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A patient recovering from neurosurgery develops intense thirst and passes 8 liters of dilute urine per day. Serum sodium is 149 mEq/L and urine osmolality is 120 mOsm/kg. What test differentiates Central from Nephrogenic Diabetes Insipidus?",
+                options: ["Water Deprivation Test followed by Desmopressin (DDAVP) administration", "24-hour Urinary Sodium", "Serum Vasopressin level alone", "Fasting Blood Glucose"],
+                correct: 0,
+                exp: "Desmopressin administration following water deprivation causes a >50% increase in urine osmolality in Central DI (deficiency of ADH), but no significant response in Nephrogenic DI (ADH resistance).",
+                triad: "DI Triad: Polyuria, Polydipsia, Hypernatremia with Dilute Urine.",
+                init: "Simultaneous Serum Sodium/Osmolality and Urine Osmolality.",
+                diag: "Water Deprivation Test followed by Desmopressin Response Test.",
+                firstline: "Desmopressin (DDAVP) for Central DI; Hydrochlorothiazide/Amiloride for Nephrogenic DI.",
+                defline: "Targeted cause correction + DDAVP replacement for Central DI."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 62-year-old heavy smoker with small cell lung carcinoma presents with confusion, lethargy, serum sodium 118 mEq/L, and urine osmolality 550 mOsm/kg. Patient is normovolemic. What is the primary diagnosis?",
+                options: ["Diabetes Insipidus", "Syndrome of Inappropriate Antidiuretic Hormone (SIADH)", "Psychogenic Polydipsia", "Congestive Heart Failure"],
+                correct: 1,
+                exp: "SIADH (ectopic ADH secretion by SCLC) presents as euvolemic hyponatremia, low serum osmolality, and inappropriately high urine osmolality (>100 mOsm/kg) with high urine sodium (>40 mEq/L).",
+                triad: "SIADH Triad: Euvolemic Hyponatremia, Inappropriately Concentrated Urine, High Urine Sodium.",
+                init: "Serum Electrolytes and Serum/Urine Osmolality.",
+                diag: "Euvolemic hyponatremia workup with low plasma osmolality and urine osmolality > 100 mOsm/kg.",
+                firstline: "Fluid restriction (800-1000 mL/day).",
+                defline: "Treatment of underlying cause + Vasopressin Receptor Antagonists (Tolvaptan/Conivaptan) or Hypertonic Saline 3% if severe neurological symptoms."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A patient with severe SIADH and sodium of 110 mEq/L develops seizures. Hypertonic (3%) saline is administered. What disastrous neurological complication occurs if hyponatremia is corrected too rapidly (>10-12 mEq/L in 24 hours)?",
+                options: ["Central Pontine Myelinolysis (Osmotic Demyelination Syndrome)", "Cerebral Edema", "Subarachnoid Hemorrhage", "Wernicke Encephalopathy"],
+                correct: 0,
+                exp: "Rapid overcorrection of chronic hyponatremia causes water to shift out of brain cells, resulting in Osmotic Demyelination Syndrome (Central Pontine Myelinolysis), leading to flaccid paralysis, dysarthria, and locked-in syndrome.",
+                triad: "Osmotic Demyelination: Dysphagia, Dysarthria, Spastic Quadriparesis (Locked-in).",
+                init: "Serum Sodium monitoring every 2-4 hours during hypertonic saline correction.",
+                diag: "Brain MRI (shows demyelination in central pons).",
+                firstline: "Strict control of sodium correction rate (< 8-10 mEq/L per 24 hours).",
+                defline: "Desmopressin and D5W re-lowering of sodium if overcorrection occurs accidentally."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 50-year-old female presents with recurrent kidney stones, bone pain, abdominal groans, and psychiatric moans. Serum Calcium is 11.8 mg/dL and intact PTH is elevated. What is the most common cause?",
+                options: ["Parathyroid Adenoma", "Parathyroid Hyperplasia", "Parathyroid Carcinoma", "Familial Hypocalciuric Hypercalcemia"],
+                correct: 0,
+                exp: "Primary Hyperparathyroidism is caused by a single benign Parathyroid Adenoma in 85% of cases. Excessive PTH mobilizes calcium from bone and reduces renal clearance, leading to hypercalcemia.",
+                triad: "Primary Hyperparathyroidism: 'Bones, Stones, Abdominal Groans, Psychiatric Overtones'.",
+                init: "Serum Calcium, Phosphate, and Intact PTH.",
+                diag: "Technetium-99m Sestamibi Scan or Neck Ultrasound (for localization).",
+                firstline: "IV hydration with Normal Saline for severe hypercalcemia.",
+                defline: "Parathyroidectomy (surgical excision of adenoma)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "What laboratory finding differentiates Familial Hypocalciuric Hypercalcemia (FHH) from Primary Hyperparathyroidism?",
+                options: ["24-hour Urinary Calcium Clearance Ratio (< 0.01 in FHH)", "Serum Intact PTH level", "Serum Phosphate level", "Neck Sestamibi Scan"],
+                correct: 0,
+                exp: "FHH is an autosomal dominant mutation in Calcium-Sensing Receptors (CaSR). It presents with asymptomatic hypercalcemia and normal/mildly elevated PTH, but is distinguished by a low 24-hr urine calcium clearance ratio (<0.01). Surgery is contraindicated.",
+                triad: "FHH Characteristics: Asymptomatic Hypercalcemia, Normal/High PTH, Hypocalciuria.",
+                init: "Serum Calcium and PTH.",
+                diag: "24-hour Urinary Calcium-to-Creatinine Clearance Ratio (< 0.01).",
+                firstline: "Observation and conservative monitoring (no treatment needed).",
+                defline: "Reassurance; Parathyroidectomy is completely ineffective."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A patient post-total thyroidectomy develops muscle cramps, perioral numbness, and carpopedal spasm. Chvostek and Trousseau signs are positive. What is the initial emergency intervention?",
+                options: ["Oral Calcium Carbonate", "IV Calcium Gluconate", "Oral Vitamin D (Calcitriol)", "IV Subcutaneous Teriparatide"],
+                correct: 1,
+                exp: "Acute hypocalcemia secondary to inadvertent surgical removal or ischemia of parathyroid glands leads to tetany. Immediate IV Calcium Gluconate (10%) is required to stabilize cardiac membrane potential.",
+                triad: "Hypocalcemic Tetany Triad: Perioral paresthesias, Carpopedal spasm, Positive Chvostek/Trousseau signs.",
+                init: "Serum Ionized Calcium and Electrocardiogram (QT prolongation).",
+                diag: "Serum Intact PTH and Calcium levels.",
+                firstline: "10% IV Calcium Gluconate slow infusion.",
+                defline: "Long-term Oral Calcium Carbonate and Active Vitamin D (Calcitriol)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 48-year-old male presents with recurrent peptic ulcer disease refractory to PPI therapy and severe watery diarrhea. Serum Gastrin level is 1200 pg/mL. What is the diagnostic test of choice to locate the tumor?",
+                options: ["Abdominal Ultrasound", "Somatostatin Receptor Scintigraphy (OctreoScan) / Ga-68 DOTATATE PET-CT", "Barium Swallow", "Serum Insulin"],
+                correct: 1,
+                exp: "Zollinger-Ellison Syndrome (Gastrinoma) is a neuroendocrine tumor located in the gastrinoma triangle. Most express somatostatin receptors, making Ga-68 DOTATATE PET-CT or OctreoScan the gold standard for localization.",
+                triad: "ZES Triad: Intractable Peptic Ulcer Disease, Diarrhea/Steatorrhea, Hypergastrinemia.",
+                init: "Fasting Serum Gastrin level (>1000 pg/mL) and Gastric pH (<2).",
+                diag: "Secretin Stimulation Test (if gastrin borderline) + Ga-68 DOTATATE PET/CT or OctreoScan.",
+                firstline: "High-dose Proton Pump Inhibitors (Omeprazole).",
+                defline: "Surgical tumor resection."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 52-year-old female presents with episodic hypoglycemia (sweating, tremors, confusion) that is rapidly relieved by drinking orange juice. Serum insulin and C-peptide are both elevated during symptomatic hypoglycemia. What is the diagnosis?",
+                options: ["Exogenous Insulin Administration", "Insulinoma", "Sulfonylurea Abuse", "Factitious Hypoglycemia"],
+                correct: 1,
+                exp: "Insulinoma (beta-cell adenoma) autonomously secretes insulin. Elevated C-peptide confirms endogenous insulin production. Exogenous insulin surreptitious use would present with suppressed C-peptide.",
+                triad: "Whipple Triad: Hypoglycemic symptoms, Documented low plasma glucose (<55 mg/dL), Relief of symptoms upon glucose administration.",
+                init: "Supervised 72-hour Fasting Test.",
+                diag: "Elevated Serum Insulin, C-peptide, and Proinsulin during hypoglycemia + Endoscopic Ultrasound/CT.",
+                firstline: "Diazoxide or Octreotide for symptom suppression.",
+                defline: "Surgical enucleation or laparoscopic resection of Insulinoma."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A patient presents with a necrotizing migratory erythema rash on the lower abdomen and groin, newly diagnosed mild diabetes mellitus, and deep vein thrombosis. Serum glucagon is markedly elevated. What is the diagnosis?",
+                options: ["VIPoma", "Glucagonoma", "Gastrinoma", "Somatostatinoma"],
+                correct: 1,
+                exp: "Glucagonoma (alpha-cell pancreatic tumor) classically manifests as Necrolytic Migratory Erythema (blistering erythematous rash), mild hyperglycemia/diabetes, weight loss, and anemia.",
+                triad: "Glucagonoma Triad: Necrolytic Migratory Erythema, New-onset Diabetes Mellitus, Anemia/Thrombosis.",
+                init: "Fasting Plasma Glucagon level (>500 pg/mL).",
+                diag: "Abdominal CT or MRI of Pancreas.",
+                firstline: "Octreotide (Somatostatin analog) + Nutritional support.",
+                defline: "Surgical resection of Pancreatic Glucagonoma."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 45-year-old female presents with severe watery diarrhea (10-15 bowel movements per day), hypokalemia, and achlorhydria (WDHA syndrome). Abdominal CT shows a mass in the pancreatic tail. What is the tumor?",
+                options: ["VIPoma", "Insulinoma", "Gastrinoma", "Carcinoid Tumor"],
+                correct: 0,
+                exp: "VIPoma secretes Vasoactive Intestinal Peptide, causing Verner-Morrison syndrome (WDHA: Watery Diarrhea, Hypokalemia, Achlorhydria/Hypochlorhydria).",
+                triad: "WDHA Triad: Massive Watery Diarrhea, Severe Hypokalemia, Achlorhydria.",
+                init: "Serum VIP level.",
+                diag: "Abdominal CT Scan.",
+                firstline: "IV fluid/electrolyte repletion + Octreotide.",
+                defline: "Surgical resection of VIPoma."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 55-year-old male with chronic ileal carcinoid tumor presents with flushing of face, wheezing, diarrhea, and tricuspid regurgitation. What urinary metabolite confirms the diagnosis?",
+                options: ["5-Hydroxyindoleacetic acid (5-HIAA)", "Vanillylmandelic acid (VMA)", "Homovanillic acid (HVA)", "Metanephrine"],
+                correct: 0,
+                exp: "Carcinoid syndrome occurs when neuroendocrine tumors metastasize to the liver, releasing serotonin into systemic circulation. 5-HIAA is the primary urinary breakdown product of serotonin.",
+                triad: "Carcinoid Triad: Episodic Cutaneous Flushing, Watery Diarrhea, Bronchospasm/Wheezing.",
+                init: "24-hour Urinary 5-HIAA excretion.",
+                diag: "Ga-68 DOTATATE PET-CT or OctreoScan.",
+                firstline: "Octreotide / Lanreotide (Somatostatin analogs).",
+                defline: "Surgical resection / Hepatic debulking."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 25-year-old male with a history of primary hyperparathyroidism and prolactinoma undergoes genetic testing. Which tumor is also associated with MEN 1 (Wermer) Syndrome?",
+                options: ["Pheochromocytoma", "Pancreatic Neuroendocrine Tumor (NET)", "Medullary Thyroid Cancer", "Neuroma"],
+                correct: 1,
+                exp: "MEN 1 (Wermer Syndrome) is caused by a menin gene mutation and features the 3 P's: Parathyroid adenomas, Pituitary tumors, and Pancreatic neuroendocrine tumors (Gastrinoma/Insulinoma).",
+                triad: "MEN 1 (3 P's): Parathyroid Hyperplasia/Adenoma, Pituitary Adenoma, Pancreatic Neuroendocrine Tumor.",
+                init: "Serum Calcium and PTH.",
+                diag: "Genetic testing for MEN1 gene mutation.",
+                firstline: "Targeted medical management of individual hormone-secreting tumors.",
+                defline: "Surgical resection of specific culprit glands (e.g., Subtotal Parathyroidectomy)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 30-year-old male presents with bilateral pheochromocytomas, medullary thyroid carcinoma, and marfanoid habitus with mucosal neuromas on tongue. What syndrome does he have?",
+                options: ["MEN 1", "MEN 2A", "MEN 2B", "Von Hippel-Lindau"],
+                correct: 2,
+                exp: "MEN 2B (Sipple variant) is caused by RET proto-oncogene mutation and is characterized by Medullary Thyroid Cancer, Pheochromocytoma, Mucosal Neuromas, and Marfanoid Habitus (lacks hyperparathyroidism seen in MEN 2A).",
+                triad: "MEN 2B Triad: Medullary Thyroid Carcinoma, Pheochromocytoma, Mucosal Neuromas/Marfanoid Habitus.",
+                init: "Serum Calcitonin and Plasma Metanephrines.",
+                diag: "RET proto-oncogene genetic testing.",
+                firstline: "Alpha-blockade followed by Pheochromocytoma resection prior to Thyroidectomy.",
+                defline: "Prophylactic or Therapeutic Total Thyroidectomy with central neck dissection."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 19-year-old Type 1 Diabetic presents with nausea, abdominal pain, Kussmaul breathing, and fruity breath odor. Blood glucose is 380 mg/dL, arterial pH is 7.15, and urine ketones are strongly positive. What is the initial resuscitation step?",
+                options: ["Immediate IV Sodium Bicarbonate", "Aggressive IV Fluid Resuscitation with 0.9% Normal Saline", "Subcutaneous Insulin Glargine", "IV Potassium Infusion alone"],
+                correct: 1,
+                exp: "Initial step in Diabetic Ketoacidosis (DKA) management is rapid volume expansion with 0.9% Normal Saline (1-1.5 L in 1st hour) to restore tissue perfusion before IV regular insulin administration.",
+                triad: "DKA Triad: Hyperglycemia (>250 mg/dL), Anion Gap Metabolic Acidosis (pH <7.30), Ketonemia/Ketonuria.",
+                init: "Bedside Blood Glucose, Serum Ketones, Electrolytes, and ABGs.",
+                diag: "Arterial Blood Gas (ABG) showing elevated anion gap metabolic acidosis + Positive urine/serum ketones.",
+                firstline: "0.9% Normal Saline bolus -> IV Regular Insulin infusion (0.1 U/kg/hr) after checking K+ level (>3.3 mEq/L).",
+                defline: "Resolution of Anion Gap (<12 mEq/L) and transition to subcutaneous insulin regimen."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "In managing Diabetic Ketoacidosis (DKA), at what serum potassium level MUST potassium replacement be started BEFORE initiating IV insulin therapy?",
+                options: ["< 3.3 mEq/L", "< 4.5 mEq/L", "< 5.2 mEq/L", "< 2.5 mEq/L"],
+                correct: 0,
+                exp: "Insulin drives potassium into cells. If baseline serum potassium is < 3.3 mEq/L, administering regular insulin will cause severe life-threatening hypokalemia and cardiac arrest. K+ must be repleted above 3.3 mEq/L first.",
+                triad: "DKA Management Checkpoints: Fluids first, Check K+ before Insulin, Add Dextrose when glucose < 200.",
+                init: "Stat Serum Potassium level.",
+                diag: "Serum Electrolyte Panel.",
+                firstline: "Hold insulin, give IV Potassium Chloride (20-30 mEq/hr) until K+ > 3.3 mEq/L.",
+                defline: "Maintain serum K+ between 4.0-5.0 mEq/L throughout DKA protocol."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 70-year-old Type 2 Diabetic presents with altered mental status, severe dehydration, serum glucose of 920 mg/dL, serum osmolality of 360 mOsm/kg, and no significant ketoacidosis. What is the primary diagnosis?",
+                options: ["Diabetic Ketoacidosis (DKA)", "Hyperosmolar Hyperglycemic State (HHS)", "Hypoglycemic Encephalopathy", "Lactic Acidosis"],
+                correct: 1,
+                exp: "Hyperosmolar Hyperglycemic State (HHS) typically occurs in elderly T2DM patients. It is characterized by extreme hyperglycemia (>600 mg/dL), hyperosmolality (>320 mOsm/kg), severe dehydration, and absence of significant ketoacidosis.",
+                triad: "HHS Triad: Severe Hyperglycemia (>600 mg/dL), Effective Serum Osmolality > 320 mOsm/kg, Altered Sensorium without Significant Ketosis.",
+                init: "Blood Glucose and Calculated Serum Osmolality.",
+                diag: "Serum Osmolality, ABG (pH > 7.30), and Serum Bicarbonate (>18 mEq/L).",
+                firstline: "Aggressive IV Fluid Resuscitation (0.9% NS).",
+                defline: "Fluid rehydration followed by low-dose IV regular insulin."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "Which anti-diabetic drug class is contraindicated in patients with a personal or family history of Medullary Thyroid Carcinoma or MEN 2?",
+                options: ["Sulfonylureas (Glimepiride)", "GLP-1 Receptor Agonists (Liraglutide/Semaglutide)", "SGLT-2 Inhibitors (Empagliflozin)", "Biguanides (Metformin)"],
+                correct: 1,
+                exp: "GLP-1 Receptor Agonists carry a boxed warning for C-cell focal hyperplasia and Medullary Thyroid Carcinoma risk in rodents, contraindicating their use in MEN 2 or MTC patients.",
+                triad: "GLP-1 RA Features: Weight loss, Glucose-dependent insulin secretion, MTC Contraindication.",
+                init: "Serum Fasting Glucose and HbA1c.",
+                diag: "Thyroid screening if personal/family history exists.",
+                firstline: "Metformin monotherapy (if non-contraindicated).",
+                defline: "Alternative anti-diabetic class (e.g., SGLT-2 inhibitors or DPP-4 inhibitors)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A Type 2 Diabetic on anti-diabetic medication presents with recurrent urinary tract infections, mycotic genital infections, and mild euglycemic DKA. Which drug class is responsible?",
+                options: ["DPP-4 Inhibitors", "SGLT-2 Inhibitors (Dapagliflozin/Empagliflozin)", "Thiazolidinediones", "Sulfonylureas"],
+                correct: 1,
+                exp: "SGLT-2 Inhibitors inhibit renal proximal tubular glucose reabsorption. Glycosuria increases the risk of mycotic genital infections, UTIs, osmotic diuresis, and euglycemic DKA.",
+                triad: "SGLT2i Effects: Glycosuria, Weight Loss, Euglycemic DKA / Genital Mycotic Infections.",
+                init: "Urine Dipstick (shows heavy glycosuria without hyperglycemia).",
+                diag: "Clinical correlation with SGLT2i drug history.",
+                firstline: "Discontinue SGLT-2 inhibitor + antifungal/antibiotic treatment.",
+                defline: "Switch to alternative oral anti-diabetic agent."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "Which oral antidiabetic medication must be temporarily held prior to contrast-enhanced CT scans to prevent contrast-induced acute kidney injury and lactic acidosis?",
+                options: ["Metformin", "Pioglitazone", "Sitagliptin", "Gliclazide"],
+                correct: 0,
+                exp: "Metformin is excreted renally. Contrast agents can precipitate acute kidney injury, causing Metformin accumulation and life-threatening Lactic Acidosis. It should be withheld on the day of the procedure and restarted 48 hours post-procedure after confirming stable renal function.",
+                triad: "Metformin Lactic Acidosis Triad: Severe Anion Gap Acidosis, High Blood Lactate, Metformin accumulation.",
+                init: "Serum Creatinine and eGFR.",
+                diag: "Blood Lactate levels.",
+                firstline: "Discontinue Metformin 48 hrs before contrast + IV Hydration.",
+                defline: "Hemodialysis in severe Metformin-induced lactic acidosis."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 55-year-old male with Type 2 Diabetes and congestive heart failure (NYHA Class III) requires additional glycemic control. Which class of anti-diabetic drugs is strictly CONTRAINDICATED due to fluid retention?",
+                options: ["Thiazolidinediones (Pioglitazone/Rosiglitazone)", "SGLT-2 Inhibitors", "GLP-1 Agonists", "DPP-4 Inhibitors"],
+                correct: 0,
+                exp: "Thiazolidinediones (TZDs like Pioglitazone) promote renal sodium reabsorption and cause fluid retention, exacerbating peripheral edema and heart failure. They are contraindicated in NYHA Class III/IV heart failure.",
+                triad: "TZD Adverse Triad: Weight gain, Peripheral edema, Exacerbation of Heart Failure.",
+                init: "Serum Creatinine and Echocardiogram.",
+                diag: "Clinical evaluation for fluid overload.",
+                firstline: "SGLT-2 Inhibitor (Empagliflozin - beneficial in Heart Failure).",
+                defline: "Avoid TZD class in cardiac failure."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 22-year-old male presents with delayed puberty, anosmia (loss of smell), small testes, and low serum testosterone with inappropriately low LH and FSH. What is the diagnosis?",
+                options: ["Klinefelter Syndrome", "Kallmann Syndrome", "Sertoli-Cell-Only Syndrome", "Testicular Failure"],
+                correct: 1,
+                exp: "Kallmann syndrome is caused by defective migration of GnRH-producing neurons and olfactory neurons from the olfactory placode to the hypothalamus, leading to hypogonadotropic hypogonadism with anosmia.",
+                triad: "Kallmann Triad: Delayed Puberty/Hypogonadism, Anosmia/Hyposmia, Low LH/FSH & Testosterone.",
+                init: "Serum Testosterone, LH, and FSH levels.",
+                diag: "Olfactory testing + GnRH Stimulation Test + Brain MRI (absent olfactory bulbs).",
+                firstline: "Pulsatile GnRH or hCG/hMG injections for fertility; Testosterone replacement for secondary sex characteristics.",
+                defline: "Hormone Replacement Therapy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 18-year-old male presents with tall stature, gynecomastia, small firm testicles, and azoospermia. Chromosomal analysis reveals 47,XXY karyotype. What is the primary diagnosis?",
+                options: ["Turner Syndrome", "Klinefelter Syndrome", "Fragile X Syndrome", "Marfan Syndrome"],
+                correct: 1,
+                exp: "Klinefelter syndrome (47,XXY) is a dysgenesis of seminiferous tubules causing primary hypogonadism (low testosterone, elevated LH/FSH), tall eunuchoid body habitus, gynecomastia, and firm small testes.",
+                triad: "Klinefelter Triad: Small firm testes, Gynecomastia, Elevated LH/FSH with Low Testosterone.",
+                init: "Serum LH, FSH, and Testosterone levels.",
+                diag: "Karyotype Analysis (47,XXY).",
+                firstline: "Exogenous Testosterone Replacement Therapy.",
+                defline: "Lifelong Testosterone therapy + Fertility counseling (TESE/ICSI)."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 16-year-old female presents with primary amenorrhea, short stature, webbed neck (pterygium colli), and broad shield-like chest with widely spaced nipples. What cardiovascular abnormality is most strongly associated?",
+                options: ["Coarctation of the Aorta", "Tetralogy of Fallot", "Transposition of Great Arteries", "Ventricular Septal Defect"],
+                correct: 0,
+                exp: "Turner syndrome (45,XO) is associated with left-sided congenital cardiac lesions, most commonly Bicuspid Aortic Valve (30%) and Coarctation of the Aorta (12%).",
+                triad: "Turner Triad: Primary Amenorrhea, Short Stature, Webbed Neck (Pterygium Colli).",
+                init: "Echocardiogram and Renal Ultrasound.",
+                diag: "Karyotype Analysis (45,XO).",
+                firstline: "Growth Hormone therapy in childhood; Estrogen/Progesterone therapy for puberty induction.",
+                defline: "Hormone Replacement Therapy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "A 65-year-old male with osteoporosis presents with bone pain, enlarged skull size, and elevated serum Alkaline Phosphatase (ALP) with normal calcium and phosphate levels. What is the diagnosis?",
+                options: ["Osteomalacia", "Paget's Disease of Bone (Osteitis Deformans)", "Multiple Myeloma", "Primary Hyperparathyroidism"],
+                correct: 1,
+                exp: "Paget's disease of bone involves excessive bone remodeling driven by osteoclast dysfunction. It features elevated serum ALP with normal serum calcium and phosphate.",
+                triad: "Paget's Triad: Bone Pain/Skeletal Deformity, Elevated Serum ALP, Normal Calcium/Phosphate.",
+                init: "Serum Alkaline Phosphatase (ALP), Calcium, Phosphate.",
+                diag: "Plain Bone X-rays (cotton-wool skull appearance) or Radionuclide Bone Scan.",
+                firstline: "Bisphosphonates (IV Zoledronic Acid or Oral Alendronate).",
+                defline: "Bisphosphonate medical therapy."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NRE Made Easy",
+                q: "A 50-year-old female presents with bone pain, proximal muscle weakness, and waddling gait. Labs show low serum calcium, low serum phosphate, elevated PTH, and low 25-hydroxyvitamin D. What is the diagnosis?",
+                options: ["Osteoporosis", "Osteomalacia", "Paget's Disease", "Osteopetrosis"],
+                correct: 1,
+                exp: "Osteomalacia (adult Vitamin D deficiency) leads to impaired mineralization of osteoid tissue. Secondary hyperparathyroidism develops due to low calcium, causing renal phosphate wasting.",
+                triad: "Osteomalacia Triad: Bone Pain/Tenderness, Proximal Myopathy (Waddling Gait), Low Vitamin D/Calcium.",
+                init: "Serum 25-Hydroxyvitamin D, Calcium, Phosphate, and ALP.",
+                diag: "Plain X-ray showing Pseudofractures (Looser's zones) or Bone Biopsy.",
+                firstline: "High-dose Vitamin D (Ergocalciferol or Cholecalciferol) + Calcium supplementation.",
+                defline: "Vitamin D repletion and maintenance."
+            },
+            {
+                subject: "Endocrinology",
+                source: "NUMS University",
+                q: "What is the primary mechanism of action of Bisphosphonates (e.g., Alendronate) in managing osteoporosis?",
+                options: ["Stimulation of osteoblast differentiation", "Inhibition of osteoclast-mediated bone resorption", "Binding to parathyroid gland receptors", "Inhibition of 1-alpha-hydroxylase"],
+                correct: 1,
+                exp: "Bisphosphonates bind to hydroxyapatite crystals in bone matrix and are absorbed by osteoclasts, inhibiting farnesyl pyrophosphate synthase and inducing osteoclast apoptosis.",
+                triad: "Osteoporosis Screening: DEXA T-score <= -2.5, Fragility Fractures, Asymptomatic loss of height.",
+                init: "Dual-energy X-ray Absorptiometry (DEXA Scan).",
+                diag: "DEXA Scan showing T-score <= -2.5 at femoral neck or lumbar spine.",
+                firstline: "Oral Bisphosphonates (Alendronate) + Vitamin D/Calcium.",
+                defline: "Bisphosphonate therapy with medication holiday after 3-5 years."
+            },
+
+            // --- RENAL & UROLOGY (50 MCQs) ---
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 45-year-old male presents with severe right flank pain radiating to the groin, accompanied by hematuria and nausea. Non-contrast CT reveals a 4 mm stone in the distal ureter. What is the initial management?",
+                options: ["Emergency Percutaneous Nephrostomy", "Medical Expulsive Therapy (Tamsulosin) and Hydration", "Extracorporeal Shock Wave Lithotripsy (ESWL)", "Rigid Ureteroscopy"],
+                correct: 1,
+                exp: "Ureteral stones <5 mm have a >80% chance of spontaneous passage. Medical Expulsive Therapy with Tamsulosin (alpha-1 blocker) relaxes ureteral smooth muscle to aid passage.",
+                triad: "Renal Colic Triad: Sudden Flank Pain Radiating to Groin, Microscopic/Gross Hematuria, Nausea/Vomiting.",
+                init: "Urinalysis and Non-Contrast CT Abdomen/Pelvis.",
+                diag: "Non-Contrast CT Scan of Abdomen and Pelvis (NCCT).",
+                firstline: "Hydration + NSAIDs (Ketorolac) + Alpha-blocker (Tamsulosin).",
+                defline: "Ureteroscopic Stone Extraction (if fails to pass after 4-6 weeks or intractable pain)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 50-year-old male with a history of recurrent kidney stones presents with a non-contrast CT showing a 1.8 cm stone located in the renal pelvis. What is the definitive treatment of choice?",
+                options: ["Medical Expulsive Therapy with Tamsulosin", "Extracorporeal Shock Wave Lithotripsy (ESWL) or Retrograde Intrarenal Surgery (RIRS)", "Percutaneous Nephrolithotomy (PCNL)", "Open Pyelolithotomy"],
+                correct: 1,
+                exp: "For renal pelvic stones < 2 cm, ESWL or Flexible Ureteroscopy/RIRS is first-line. Stones > 2 cm or staghorn calculi require Percutaneous Nephrolithotomy (PCNL).",
+                triad: "Renal Calculus Features: Flank pain, Hematuria, Costovertebral angle tenderness.",
+                init: "Urinalysis + Non-Contrast CT Abdomen/Pelvis.",
+                diag: "Non-Contrast CT Abdomen and Pelvis.",
+                firstline: "Analgesia (NSAIDs) + Hydration.",
+                defline: "Extracorporeal Shock Wave Lithotripsy (ESWL) or RIRS."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 55-year-old female with recurrent Proteus mirabilis urinary tract infections presents with a large staghorn calculus filling the entire renal pelvis and calyces. What is the chemical composition of this stone?",
+                options: ["Calcium Oxalate Monohydrate", "Uric Acid", "Struvite (Magnesium Ammonium Phosphate)", "Cystine"],
+                correct: 2,
+                exp: "Struvite stones form in the presence of urease-producing bacteria (Proteus, Klebsiella), which hydrolyze urea to ammonia, alkalinizing urine (pH > 7.2) and causing precipitation of magnesium ammonium phosphate.",
+                triad: "Struvite Triad: Recurrent UTI with Proteus, Alkaline Urine (pH > 7.2), Staghorn Calculus.",
+                init: "Urinalysis (shows triple phosphate coffin-lid crystals and alkaline pH) + KUB X-ray.",
+                diag: "Non-Contrast CT Scan.",
+                firstline: "Antibiotic therapy for underlying UTI.",
+                defline: "Percutaneous Nephrolithotomy (PCNL) for complete stone clearance."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A patient with gout presents with radiolucent kidney stones on plain X-ray (KUB). CT confirms a stone in the left ureter. What is the most effective medical management to dissolve this stone?",
+                options: ["Urine Acidification with Ammonium Chloride", "Urine Alkalinization with Potassium Citrate", "High-dose Vitamin C", "Thiazide Diuretics"],
+                correct: 1,
+                exp: "Uric acid stones are radiolucent and precipitate in acidic urine (pH < 5.5). Oral potassium citrate alkalinizes urine to pH 6.5–7.0, effectively dissolving uric acid calculi (chemolysis).",
+                triad: "Uric Acid Stone Triad: Hyperuricemia/Gout, Acidic Urine pH < 5.5, Radiolucent Stone on X-ray.",
+                init: "Urinalysis and Plain Abdominal Radiograph (KUB).",
+                diag: "Non-Contrast CT Abdomen/Pelvis (visualizes radiolucent stones).",
+                firstline: "Hydration + Oral Potassium Citrate alkalinization.",
+                defline: "Medical Dissolution Therapy (Alkalinization + Allopurinol)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 65-year-old male smoker presents with painless gross hematuria. Physical exam is unremarkable. What is the most important diagnostic procedure to perform?",
+                options: ["Urine Culture and Sensitivity", "Flexible Cystoscopy and CT Urogram", "Renal Ultrasound alone", "Prostate Specific Antigen (PSA)"],
+                correct: 1,
+                exp: "Painless gross hematuria in an adult over 40 is assumed to be Bladder (Urothelial) Cancer until proven otherwise. Cystoscopy with CT Urogram is the diagnostic standard.",
+                triad: "Bladder Cancer Triad: Painless Gross Hematuria, Advanced Age, Smoking History.",
+                init: "Urinalysis and Urine Cytology.",
+                diag: "Flexible Cystoscopy with Biopsy + Contrast CT Urogram.",
+                firstline: "Transurethral Resection of Bladder Tumor (TURBT).",
+                defline: "TURBT + Intravesical BCG (for non-muscle invasive) or Radical Cystectomy (for muscle-invasive)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "What is the definitive initial surgical procedure for both diagnosis and staging of non-muscle invasive bladder carcinoma?",
+                options: ["Partial Cystectomy", "Transurethral Resection of Bladder Tumor (TURBT)", "Radical Cystectomy", "Intravesical BCG Instillation"],
+                correct: 1,
+                exp: "TURBT allows complete removal of visible exophytic tumor tissue while securing histopathological specimens containing detrusor muscle to determine depth of invasion (T staging).",
+                triad: "TURBT Staging Goals: Resection of lesion, Inclusion of detrusor muscle layer, Histopathological grade confirmation.",
+                init: "Flexible Cystoscopy.",
+                diag: "TURBT with Histopathological examination.",
+                firstline: "TURBT.",
+                defline: "TURBT followed by Intravesical BCG or Mitomycin C."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 60-year-old male presents with the classic triad of flank pain, palpable abdominal mass, and gross hematuria. CT shows a 6 cm hypervascular mass in the upper pole of the right kidney. What is the histological subtype?",
+                options: ["Clear Cell Renal Carcinoma", "Papillary Renal Carcinoma", "Chromophobe Carcinoma", "Oncocytic Adenoma"],
+                correct: 0,
+                exp: "Clear Cell Renal Cell Carcinoma (RCC) originates from the proximal convoluted tubule epithelium and accounts for 75-80% of primary renal malignancies. It is hypervascular and characteristically associated with VHL gene deletion.",
+                triad: "Classic RCC Triad (Robson's Triad): Flank Pain, Palpable Abdominal Mass, Gross Hematuria.",
+                init: "Abdominal Ultrasound.",
+                diag: "Multiphasic Contrast-Enhanced CT Abdomen/Pelvis.",
+                firstline: "Surgical Resection (Radical or Partial Nephrectomy).",
+                defline: "Radical or Nephron-Sparing Partial Nephrectomy (Targeted Tyrosine Kinase Inhibitors like Sunitinib if metastatic)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A male patient with Renal Cell Carcinoma develops a new-onset left-sided varicocele that does not reduce when lying supine. What anatomical feature explains this?",
+                options: ["Direct invasion of the testicular artery", "Obstruction of the left gonadal vein entry into the left renal vein by tumor thrombus", "Compression of the inferior vena cava", "Right renal vein tumor extension"],
+                correct: 1,
+                exp: "The left gonadal vein drains into the left renal vein at a 90-degree angle. Renal Cell Carcinoma invasion into the left renal vein blocks testicular venous drainage, creating a non-reducing left varicocele.",
+                triad: "Left RCC Paraneoplastic Sign: Left non-reducing varicocele, Erythrocytosis, Hypercalcemia.",
+                init: "Scrotal and Renal Ultrasound.",
+                diag: "Contrast-Enhanced CT Abdomen with Renal Vein/IVC phase.",
+                firstline: "Nephrectomy with Tumor Thrombectomy.",
+                defline: "Radical Nephrectomy."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 68-year-old male presents with lower urinary tract symptoms (LUTS) including weak stream, hesitancy, nocturia, and dribbling. Digital Rectal Exam (DRE) reveals a smooth, rubbery, symmetrically enlarged prostate without nodules. What is the diagnosis?",
+                options: ["Prostate Cancer", "Benign Prostatic Hyperplasia (BPH)", "Acute Bacterial Prostatitis", "Prostatic Abscess"],
+                correct: 1,
+                exp: "Benign Prostatic Hyperplasia (BPH) arises in the transition zone of the prostate, causing bladder outlet obstruction. DRE shows a smooth, elastic, uniformly enlarged gland without hard nodules.",
+                triad: "BPH Symptom Triad (LUTS): Storage symptoms (Frequency/Nocturia), Voiding symptoms (Hesitancy/Weak Stream), Post-micturition dribbling.",
+                init: "Digital Rectal Exam (DRE), Urinalysis, and Serum PSA.",
+                diag: "Clinical evaluation + International Prostate Symptom Score (IPSS) + Uroflowmetry.",
+                firstline: "Medical therapy with Alpha-1 Blockers (Tamsulosin) ± 5-alpha Reductase Inhibitors (Finasteride).",
+                defline: "Transurethral Resection of the Prostate (TURP)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "Which medication class reduces prostate volume over 6 months by inhibiting the conversion of testosterone to dihydrotestosterone (DHT)?",
+                options: ["Alpha-1 Receptor Antagonists", "5-Alpha Reductase Inhibitors (Finasteride/Dutasteride)", "Antimuscarinics", "PDE-5 Inhibitors"],
+                correct: 1,
+                exp: "5-Alpha Reductase Inhibitors (Finasteride) prevent conversion of Testosterone to DHT (the primary prostatic androgen), inducing epithelial apoptosis and reducing prostate volume by 20-25% over 6 months.",
+                triad: "5-ARI Features: Decreases prostate volume, Lowers PSA by 50%, Prevents acute urinary retention.",
+                init: "Serum PSA baseline check.",
+                diag: "Clinical BPH with prostate volume > 30g.",
+                firstline: "Finasteride or Dutasteride combined with Tamsulosin.",
+                defline: "TURP if medical treatment fails."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 72-year-old male with urinary urgency and back pain has a DRE revealing a hard, craggy, nodular prostate. PSA is 45 ng/mL. What anatomical zone does this carcinoma most commonly originate from?",
+                options: ["Transition Zone", "Central Zone", "Peripheral Zone", "Periurethral Zone"],
+                correct: 2,
+                exp: "Prostate Carcinoma originates in the Peripheral Zone in 70-80% of cases, making it palpable on DRE as a hard, irregular nodule.",
+                triad: "Prostate Cancer Triad: Hard nodular prostate on DRE, Elevated Serum PSA, Osteoblastic bone metastases.",
+                init: "Digital Rectal Exam (DRE) and Serum PSA.",
+                diag: "Multiparametric MRI (mpMRI) followed by Transrectal Ultrasound (TRUS)-guided or Transperineal Biopsy.",
+                firstline: "Androgen Deprivation Therapy (GnRH agonists like Leuprolide) for metastatic disease.",
+                defline: "Radical Prostatectomy or Radiotherapy for localized disease."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 25-year-old male presents with a painless, hard testicular mass. Scrotal ultrasound reveals a homogeneous hypoechoic intratesticular lesion. Serum AFP is normal, but beta-hCG is mildly elevated. What is the histological diagnosis?",
+                options: ["Classic Seminoma", "Yolk Sac Tumor", "Embryonal Carcinoma", "Choriocarcinoma"],
+                correct: 0,
+                exp: "Seminoma is the most common germ cell tumor of the testis. It is characteristically homogeneous on ultrasound and does NOT produce Alpha-Fetoprotein (AFP). Serum AFP elevation excludes pure seminoma.",
+                triad: "Seminoma Triad: Painless testicular lump, Normal Serum AFP, Homogeneous hypoechoic mass on US.",
+                init: "Scrotal Duplex Ultrasound.",
+                diag: "Serum Tumor Markers (AFP, beta-hCG, LDH) + Inguinal Radical Orchidectomy.",
+                firstline: "Radical Inguinal Orchidectomy.",
+                defline: "Radical Inguinal Orchidectomy ± Surveillance or Radiotherapy/Chemotherapy (Platinum-based)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 22-year-old male with a non-seminomatous germ cell tumor of the testis has markedly elevated Alpha-Fetoprotein (AFP) levels (>5000 IU/mL). Which tumor component is specifically responsible?",
+                options: ["Choriocarcinoma", "Yolk Sac (Endodermal Sinus) Tumor Component", "Seminoma", "Teratoma"],
+                correct: 1,
+                exp: "Yolk Sac tumors (endodermal sinus tumors) specifically produce Alpha-Fetoprotein (AFP) and characteristically feature Schiller-Duval bodies on histopathology.",
+                triad: "Yolk Sac Tumor Triad: Young age/pediatric presentation, Elevated Serum AFP, Schiller-Duval bodies.",
+                init: "Scrotal Ultrasound.",
+                diag: "Serum Marker Panel (AFP + beta-hCG + LDH) + Radical Inguinal Orchidectomy.",
+                firstline: "Radical Inguinal Orchidectomy.",
+                defline: "BEP Chemotherapy (Bleomycin, Etoposide, Cisplatin)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 16-year-old boy presents with sudden onset left scrotal pain waking him from sleep. The left testis is swollen, exquisitely tender, and retracted high in the scrotum with a transverse lie. Prehn's sign is negative. What is the immediate step?",
+                options: ["Prescribe oral Ciprofloxacin for epididymitis", "Emergency Surgical Exploration and Bilateral Orchidopexy", "Scrotal Doppler Ultrasound", "Manual Detorsion only and discharge"],
+                correct: 1,
+                exp: "Testicular Torsion is a surgical emergency. The warm ischemia window is 6 hours. Immediate surgical exploration and bilateral testicular fixation (orchidopexy) is required without waiting for imaging if clinical suspicion is high.",
+                triad: "Testicular Torsion Triad: Sudden severe scrotal pain, High-riding testis with transverse lie, Absent cremasteric reflex.",
+                init: "Clinical Diagnosis (Bedside Scrotal Doppler US if diagnosis uncertain).",
+                diag: "Surgical Exploration.",
+                firstline: "Immediate Manual Unwinding (Sultan technique: inward to outward) if surgery delayed.",
+                defline: "Emergency Surgical Exploration and Bilateral Orchidopexy."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 28-year-old male presents with gradual onset right scrotal pain, fever, and dysuria. Examination shows tenderness over the posterior testis. Pain is relieved when the scrotum is manually elevated (Positive Prehn's Sign). What is the causative organism?",
+                options: ["Escherichia coli", "Chlamydia trachomatis or Neisseria gonorrhoeae", "Pseudomonas aeruginosa", "Mycobacterium tuberculosis"],
+                correct: 1,
+                exp: "In sexually active males < 35 years, Acute Epididymitis is predominantly caused by sexually transmitted pathogens (Chlamydia trachomatis and N. gonorrhoeae). In males > 35, enteric Gram-negative rods (E. coli) predominate.",
+                triad: "Epididymitis Triad: Gradual scrotal pain, Positive Prehn's sign, Intact Cremasteric reflex.",
+                init: "Urine Nucleic Acid Amplification Test (NAAT) for Chlamydia/Gonorrhea + Urinalysis.",
+                diag: "Scrotal Color Doppler Ultrasound (shows hypervascularity/increased blood flow).",
+                firstline: "Ceftriaxone IM single dose PLUS Oral Doxycycline for 10 days.",
+                defline: "Targeted antimicrobial therapy + Scrotal support and NSAIDs."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A newborn male is found to have a soft, non-tender scrotal swelling that transilluminates brilliantly. The swelling increases in size when the child cries. What is the diagnosis?",
+                options: ["Encysted Hydrocele of the Cord", "Communicating Hydrocele", "Non-communicating Hydrocele", "Indirect Inguinal Hernia"],
+                correct: 1,
+                exp: "A Communicating Hydrocele results from a patent processus vaginalis that allows peritoneal fluid to flow freely into the tunica vaginalis, fluctuating in size with intra-abdominal pressure changes (crying).",
+                triad: "Communicating Hydrocele Triad: Transilluminating scrotal mass, Fluctuating size, Patent Processus Vaginalis.",
+                init: "Clinical Examination and Transillumination Test.",
+                diag: "Scrotal Ultrasound.",
+                firstline: "Observation until 1-2 years of age (most close spontaneously).",
+                defline: "Surgical High Ligation of the Patent Processus Vaginalis."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 25-year-old subfertile male presents with a soft scrotal mass described as a 'bag of worms' above the left testis. The mass enlarges when standing and during a Valsalva maneuver. What is the underlying anatomical mechanism?",
+                options: ["Incompetence of valves in the internal spermatic vein draining into the left renal vein", "Infection of the epididymis", "Patent processus vaginalis", "Lymphatic obstruction"],
+                correct: 0,
+                exp: "Varicocele is an abnormal dilation of the pampiniform plexus veins. It occurs predominantly on the left side because the left internal spermatic vein enters the left renal vein at a perpendicular angle with higher hydrostatic pressure.",
+                triad: "Varicocele Triad: 'Bag of worms' mass, Left-sided predominance, Subfertility/Abnormal semen analysis.",
+                init: "Physical exam in standing position with Valsalva maneuver.",
+                diag: "Scrotal Color Duplex Ultrasound (shows venous diameter > 2-3 mm with reflux).",
+                firstline: "Scrotal support and observation if asymptomatic.",
+                defline: "Surgical Varicocelectomy (Subinguinal microscopic approach or Laparoscopic vein ligation)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 25-year-old motor vehicle accident victim arrives at the ER with pelvic fractures. Examination reveals blood at the urethral meatus, high-riding prostate on DRE, and inability to void. What is the contraindicated procedure?",
+                options: ["Retrograde Urethrogram", "Immediate Blind Urethral Foley Catheterization", "Suprapubic Cystostomy", "Pelvic CT Scan"],
+                correct: 1,
+                exp: "Blood at the urethral meatus combined with a pelvic fracture strongly indicates Posterior Urethral Disruption. Blind placement of a transurethral Foley catheter is strictly contraindicated as it can convert a partial tear into a complete transection.",
+                triad: "Urethral Injury Triad: Blood at urethral meatus, High-riding prostate, Perineal hematoma.",
+                init: "Retrograde Urethrogram (RUG).",
+                diag: "Retrograde Urethrogram.",
+                firstline: "Suprapubic Catheterization (SPC) for urinary diversion.",
+                defline: "Delayed Urethroplasty (after 3-6 months)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A patient with blunt trauma to the lower abdomen presents with gross hematuria, severe lower abdominal pain, and inability to void. Plain CT Cystogram reveals contrast extravasation into the retroperitoneal space around the bladder base. What is the management?",
+                options: ["Emergency Exploratory Laparotomy", "Uncomplicated Catheter Drainage (Foley catheter for 10-14 days)", "Bilateral Ureteral Stenting", "Percutaneous Drainage"],
+                correct: 1,
+                exp: "Extraperitoneal Bladder Rupture (accounting for 80% of traumatic bladder injuries) is typically associated with pelvic fractures and is managed conservatively with prolonged Foley catheter drainage.",
+                triad: "Extraperitoneal Bladder Tear Triad: Pelvic fracture, Gross hematuria, Contrast confined to pelvic retroperitoneum on CT cystogram.",
+                init: "Urinalysis and Pelvic CT.",
+                diag: "CT Cystogram (filling bladder with 300-400 mL diluted contrast).",
+                firstline: "Urethral Foley Catheter Drainage for 10-14 days.",
+                defline: "Catheter management (Surgery reserved for intraperitoneal rupture)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "Contrast extravasation outlining the loops of small bowel on CT Cystogram indicates intraperitoneal bladder rupture. What is the definitive management?",
+                options: ["Foley Catheter drainage alone", "Immediate Surgical Repair (Laparotomy/Laparoscopy)", "Antibiotic therapy only", "Percutaneous Aspiration"],
+                correct: 1,
+                exp: "Intraperitoneal Bladder Rupture involves a tear at the bladder dome covered by peritoneum. Urine leaks into the peritoneal cavity causing peritonitis and uremia; immediate operative closure in two layers is mandatory.",
+                triad: "Intraperitoneal Bladder Tear Triad: Direct blunt trauma to full bladder, Peritonitis/Ascites, Contrast outlining bowel loops.",
+                init: "CT Cystography.",
+                diag: "CT Cystography showing contrast in paracolic gutters and around bowel loops.",
+                firstline: "Emergency Laparotomy and two-layer Bladder Closure.",
+                defline: "Primary Surgical Repair + Suprapubic or Foley catheter drainage."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 7-year-old child presents 2 weeks after a streptococcal pharyngeal infection with cola-colored urine, facial edema, and hypertension. Lab evaluation shows elevated ASO titers and low serum C3. What is the diagnosis?",
+                options: ["Minimal Change Disease", "Post-Streptococcal Glomerulonephritis (PSGN)", "IgA Nephropathy", "Membranous Nephropathy"],
+                correct: 1,
+                exp: "Post-Streptococcal Glomerulonephritis (PSGN) is a classic Nephritic syndrome occurring 1-3 weeks post-streptococcal pharyngitis or impetigo. Immune complex deposition causes hypercellularity, hematuria, and hypocomplementemia (low C3).",
+                triad: "PSGN Nephritic Triad: Gross Hematuria (Tea/Cola-colored), Periorbital Edema, Hypertension.",
+                init: "Urinalysis (RBC casts) and Serum C3 complement level.",
+                diag: "Elevated ASO/Anti-DNase B titers + Low C3 (Biopsy shows 'lumpy-bumpy' subepithelial humps if atypical).",
+                firstline: "Supportive care: Loop Diuretics (Furosemide) for hypertension/edema + Salt restriction.",
+                defline: "Self-limiting condition; full recovery in >95% of pediatric cases."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 22-year-old male presents with recurrent episodes of gross hematuria occurring 1-2 days AFTER an upper respiratory tract infection ('synpharyngitic hematuria'). Serum C3 complement levels are normal. What is the diagnosis?",
+                options: ["Post-Streptococcal Glomerulonephritis", "IgA Nephropathy (Berger's Disease)", "Goodpasture's Disease", "Alport Syndrome"],
+                correct: 1,
+                exp: "IgA Nephropathy (Berger's disease) is the most common primary glomerulonephritis worldwide. Characteristically, gross hematuria coincides with or occurs within 24-48 hours of mucosal infection (synpharyngitic), with normal serum complement.",
+                triad: "IgA Nephropathy Triad: Synpharyngitic hematuria (1-2 days post-URI), Normal C3, Mesangial IgA deposition.",
+                init: "Urinalysis (dysmorphic RBCs) and Serum IgA level.",
+                diag: "Renal Biopsy showing mesangial IgA immune complex deposition on immunofluorescence.",
+                firstline: "ACE Inhibitors or ARBs for proteinuria and blood pressure control.",
+                defline: "ACEi/ARB therapy + Corticosteroids if persistent high proteinuria."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 30-year-old male presents with hemoptysis, dyspnea, acute renal failure, and dysmorphic red blood cells in urine. Serology is positive for Anti-Glomerular Basement Membrane (Anti-GBM) antibodies. What is the diagnosis?",
+                options: ["Wegener's Granulomatosis (GPA)", "Goodpasture Syndrome (Anti-GBM Disease)", "Lupus Nephritis", "Microscopic Polyangiitis"],
+                correct: 1,
+                exp: "Goodpasture syndrome is caused by autoantibodies directed against the alpha-3 chain of Type IV Collagen in glomerular and alveolar basement membranes, producing Rapidly Progressive Glomerulonephritis (RPGN) and pulmonary hemorrhage.",
+                triad: "Goodpasture Triad: Hemoptysis, Rapidly Progressive Glomerulonephritis, Anti-GBM Autoantibodies.",
+                init: "Urinalysis, Chest X-ray, and Anti-GBM antibody titer.",
+                diag: "Renal Biopsy showing linear IgG deposition along glomerular basement membrane on immunofluorescence.",
+                firstline: "Plasmapheresis (plasma exchange) + High-dose IV Corticosteroids + Cyclophosphamide.",
+                defline: "Plasmapheresis and Immunosuppression."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A renal biopsy in a patient with Rapidly Progressive Glomerulonephritis (RPGN) demonstrates extensive crescent formation in Bowman's capsule. What cells compose these crescents?",
+                options: ["Podocytes and Mesangial cells", "Proliferating Parietal Epithelial Cells and Monocytes/Macrophages", "Endothelial cells and Neutrophils", "Fibroblasts and Lymphocytes"],
+                correct: 1,
+                exp: "Crescents in RPGN are formed by the proliferation of parietal epithelial cells lining Bowman's capsule along with infiltrating monocytes and macrophages in response to fibrin leakage through ruptured GBM.",
+                triad: "RPGN Triad: Rapid loss of renal function (weeks/months), Nephritic urine sediment, Glomerular crescents on biopsy (>50%).",
+                init: "Serum Creatinine and Urinalysis.",
+                diag: "Renal Biopsy (Crescentic Glomerulonephritis).",
+                firstline: "Pulse Methylprednisolone IV + Cyclophosphamide.",
+                defline: "Aggressive immunosuppression ± Plasmapheresis."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 4-year-old child presents with severe generalized edema, ascites, massive proteinuria (4.5 g/24hr), hypoalbuminemia, and hyperlipidemia. Electron microscopy reveals effacement of podocyte foot processes. What is the diagnosis?",
+                options: ["Focal Segmental Glomerulosclerosis", "Minimal Change Disease", "Membranous Nephropathy", "Membranoproliferative GN"],
+                correct: 1,
+                exp: "Minimal Change Disease (MCD) is the primary cause of Nephrotic Syndrome in children (~80-90%). Light microscopy is normal, but Electron Microscopy reveals diffuse effacement (flattening) of podocyte foot processes.",
+                triad: "Nephrotic Syndrome Triad: Massive Proteinuria (>3.5g/day), Hypoalbuminemia (<3.0 g/dL), Generalized Edema/Hyperlipidemia.",
+                init: "Urine Dipstick (4+ protein) and Spot Urine Protein-to-Creatinine Ratio.",
+                diag: "Electron Microscopy on Renal Biopsy (Biopsy usually skipped in children due to high steroid response).",
+                firstline: "Oral Corticosteroids (Prednisone 60 mg/m²/day for 6 weeks).",
+                defline: "Steroid therapy (complete remission in >90%)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 40-year-old HIV-positive patient presents with heavy nephrotic-range proteinuria, hypertension, and declining renal function. Renal biopsy demonstrates segmental sclerosis involving portions of some glomeruli. What is the diagnosis?",
+                options: ["Minimal Change Disease", "Focal Segmental Glomerulosclerosis (FSGS)", "Membranous Nephropathy", "Diabetic Nephropathy"],
+                correct: 1,
+                exp: "Focal Segmental Glomerulosclerosis (FSGS) is the leading cause of nephrotic syndrome in African American adults and HIV patients. Biopsy shows sclerosis affecting part (segmental) of some (focal) glomeruli.",
+                triad: "FSGS Triad: Nephrotic syndrome, Sclerosis of subset of glomeruli, Progression to ESRD.",
+                init: "24-hour Urine Protein and HIV/Hepatitis Serology.",
+                diag: "Renal Biopsy (Focal segmental hyalinosis and sclerosis).",
+                firstline: "ACE Inhibitors/ARBs + High-dose Oral Corticosteroids.",
+                defline: "Immunosuppression (Calcineurin inhibitors like Tacrolimus if steroid-resistant)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 52-year-old male with hepatitis B presents with nephrotic syndrome. Renal biopsy reveals thickening of the glomerular basement membrane with 'spike and dome' appearance on silver stain. What is the diagnosis?",
+                options: ["Membranous Nephropathy", "Minimal Change Disease", "IgA Nephropathy", "FSGS"],
+                correct: 0,
+                exp: "Membranous Nephropathy is a common cause of primary nephrotic syndrome in non-diabetic white adults. It is linked to Phospholipase A2 Receptor (PLA2R) autoantibodies or Hepatitis B. Biopsy shows subepithelial immune deposits producing a 'spike and dome' appearance.",
+                triad: "Membranous Nephropathy Triad: Nephrotic syndrome, Anti-PLA2R antibodies, Subepithelial 'Spike and Dome' deposits.",
+                init: "Serum Anti-PLA2R antibody test and Hepatitis B/C serology.",
+                diag: "Renal Biopsy with Silver Stain.",
+                firstline: "ACE Inhibitor/ARB therapy + Statins + Diuretics.",
+                defline: "Immunosuppressive protocol (Cyclophosphamide + Corticosteroids or Rituximab)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "What is the earliest clinical manifestation of Diabetic Nephropathy in a patient with long-standing Type 1 or Type 2 Diabetes Mellitus?",
+                options: ["Gross Hematuria", "Microalbuminuria (30-300 mg/24hr or ACR 30-300 mg/g)", "Declining eGFR", "Hypertension"],
+                correct: 1,
+                exp: "Microalbuminuria (moderately increased albuminuria: 30-300 mg/day) is the earliest detectable indicator of diabetic microvascular kidney damage, preceding irreversible GFR decline.",
+                triad: "Diabetic Nephropathy Progress: Glomerular Hyperfiltration -> Microalbuminuria -> Nodular Glomerulosclerosis (Kimmelstiel-Wilson).",
+                init: "Annual Spot Urine Albumin-to-Creatinine Ratio (ACR).",
+                diag: "Persistent Urinary ACR > 30 mg/g on 2 out of 3 samples over 3-6 months.",
+                firstline: "ACE Inhibitor (Lisinopril) or ARB (Losartan) + SGLT-2 Inhibitor.",
+                defline: "Strict glycemic control (HbA1c < 7%) + SGLT2i + Renin-Angiotensin System Blockade."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A renal biopsy from a long-standing diabetic patient shows nodular PAS-positive hyaline masses in the mesangium of glomeruli. What are these characteristic lesions called?",
+                options: ["Wire-loop lesions", "Kimmelstiel-Wilson nodules", "Crescentic lesions", "Fleabitten kidney"],
+                correct: 1,
+                exp: "Kimmelstiel-Wilson nodules (nodular glomerulosclerosis) are pathognomonic lesions of advanced Diabetic Nephropathy, characterized by round, acellular, PAS-positive mesangial nodular matrix expansion.",
+                triad: "Diabetic Kidney Biopsy: Glomerular basement membrane thickening, Mesangial expansion, Kimmelstiel-Wilson nodules.",
+                init: "Urine ACR.",
+                diag: "Renal Biopsy (showing Kimmelstiel-Wilson nodules).",
+                firstline: "ACEi/ARB + SGLT2i.",
+                defline: "Optimization of blood pressure and glycemic control."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A patient with systemic lupus erythematosus (SLE) presents with hematuria, proteinuria, and declining renal function. Renal biopsy demonstrates Diffuse Proliferative Lupus Nephritis (Class IV). What is the first-line induction therapy?",
+                options: ["Low-dose Aspirin alone", "High-dose Mycophenolate Mofetil (MMF) or IV Cyclophosphamide PLUS Pulse Corticosteroids", "Methotrexate", "Hydroxychloroquine monotherapy"],
+                correct: 1,
+                exp: "Class IV Diffuse Proliferative Lupus Nephritis is the most severe and common form of lupus kidney disease. Induction therapy requires potent immunosuppression with IV Methylprednisolone plus either Mycophenolate Mofetil (MMF) or Cyclophosphamide.",
+                triad: "Lupus Nephritis Class IV Triad: Nephritic/Nephrotic presentation, Low C3/C4 & High Anti-dsDNA, 'Full-house' immunofluorescence.",
+                init: "Urinalysis, Serum C3/C4 levels, and Anti-dsDNA antibody titer.",
+                diag: "Renal Biopsy (Class IV Diffuse Proliferative GN).",
+                firstline: "IV Methylprednisolone pulses followed by Oral Prednisone PLUS Mycophenolate Mofetil (MMF) or IV Cyclophosphamide.",
+                defline: "Maintenance therapy with Mycophenolate Mofetil or Azathioprine."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A hospitalized patient receiving IV Gentamicin develops oliguria. Urinalysis reveals muddy brown granular casts and tubular epithelial cells. What is the diagnosis?",
+                options: ["Acute Interstitial Nephritis", "Acute Tubular Necrosis (ATN)", "Prerenal Azotemia", "Postrenal Azotemia"],
+                correct: 1,
+                exp: "Acute Tubular Necrosis (ATN) is the most common cause of intrinsic acute kidney injury in hospitalized patients. Ischemic or nephrotoxic (aminoglycosides/radiocontrast) injury causes sloughing of tubular cells forming pathognomonic muddy brown granular casts.",
+                triad: "ATN Triad: Exposure to toxin/ischemia, Fractional Excretion of Sodium (FENa) > 2%, Muddy brown granular casts.",
+                init: "Serum Creatinine, Urinalysis, and FENa calculation.",
+                diag: "Urinalysis showing Muddy Brown Casts and FENa > 2%.",
+                firstline: "Discontinue nephrotoxic drug + Supportive fluid management.",
+                defline: "Supportive care (Renal Replacement Therapy/Hemodialysis if severe refractory fluid overload, hyperkalemia, or uremia)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A patient develops fever, maculopapular skin rash, and acute kidney injury 10 days after starting Ciprofloxacin. Urinalysis shows sterile pyuria and eosinophiluria. What is the diagnosis?",
+                options: ["Acute Tubular Necrosis", "Acute Interstitial Nephritis (AIN)", "Glomerulonephritis", "Pyelonephritis"],
+                correct: 1,
+                exp: "Acute Interstitial Nephritis (AIN) is a hypersensitivity reaction in the renal interstitium most commonly caused by drugs (NSAIDs, Penicillins, Ciprofloxacin, PPIs). Classic features include fever, rash, eosinophilia, and WBC casts/eosinophiluria.",
+                triad: "AIN Classic Triad: Fever, Maculopapular Rash, Arthralgia/Eosinophiluria.",
+                init: "Urinalysis with Hansel/Wright stain for urine eosinophils.",
+                diag: "Renal Biopsy showing interstitial inflammatory infiltrate with eosinophils.",
+                firstline: "Immediate withdrawal of offending drug.",
+                defline: "Oral Corticosteroids (Prednisone) if renal function does not recover rapidly after drug discontinuation."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "Which urinary diagnostic index best differentiates Prerenal Azotemia from Intrinsic Acute Kidney Injury (ATN)?",
+                options: ["Fractional Excretion of Sodium (FENa < 1% in Prerenal vs > 2% in ATN)", "Serum BUN level", "Urine Color", "Urine Output Volume"],
+                correct: 0,
+                exp: "In Prerenal Azotemia, intact tubular function avidly reabsorbs sodium and water to maintain intravascular volume, resulting in a Fractional Excretion of Sodium (FENa) < 1% and Urine Sodium < 20 mEq/L. In ATN, tubular damage impairs sodium reabsorption, causing FENa > 2%.",
+                triad: "Prerenal Indices: FENa < 1%, BUN:Creatinine ratio > 20:1, Urine Osmolality > 500 mOsm/kg.",
+                init: "Simultaneous Serum and Spot Urine Sodium and Creatinine.",
+                diag: "Calculated FENa = (Urine Na * Serum Cr) / (Serum Na * Urine Cr) * 100.",
+                firstline: "Isotonic Fluid Resuscitation (0.9% Normal Saline) for Prerenal Azotemia.",
+                defline: "Volume restoration restores renal perfusion."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 40-year-old male with a history of hypertension presents with bilateral flank masses, hematuria, and a berry aneurysm in the Circle of Willis. Genetic analysis confirms mutation in PKD1 gene on chromosome 16. What is the diagnosis?",
+                options: ["Autosomal Recessive Polycystic Kidney Disease", "Autosomal Dominant Polycystic Kidney Disease (ADPKD)", "Medullary Cystic Disease", "Multicystic Dysplastic Kidney"],
+                correct: 1,
+                exp: "ADPKD (PKD1 mutation in 85%, chromosome 16) is the most common inherited kidney disease. Features include bilateral renal cysts, hypertension, flank pain, hepatic cysts, and intracranial berry aneurysms.",
+                triad: "ADPKD Triad: Bilateral palpable flank masses, Early-onset Hypertension, Family history of renal failure/aneurysm.",
+                init: "Renal Ultrasound.",
+                diag: "Renal Ultrasound or MRI confirming age-specific cyst criteria.",
+                firstline: "Strict Blood Pressure control (ACE Inhibitors or ARBs target < 130/80 mmHg) + High fluid intake.",
+                defline: "Tolvaptan (Vasopressin V2 receptor antagonist) to slow cyst growth + Renal Replacement Therapy/Transplantation for ESRD."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A patient with Chronic Kidney Disease (CKD Stage 5) develops an ECG showing tall, peaked T waves, widened QRS complexes, and prolonged PR interval. Serum K+ is 7.2 mEq/L. What is the immediate first step to stabilize cardiac membranes?",
+                options: ["IV Regular Insulin with Dextrose 50%", "IV Calcium Gluconate (10%)", "Oral Sodium Polystyrene Sulfonate (Kayexalate)", "Inhaled Albuterol"],
+                correct: 1,
+                exp: "In severe hyperkalemia with ECG changes, IV Calcium Gluconate (or Calcium Chloride) must be administered immediately. Calcium antagonizes membrane excitability and stabilizes cardiac myocytes without altering serum potassium levels.",
+                triad: "Severe Hyperkalemia ECG Triad: Peaked T waves -> QRS Widening -> Sine Wave pattern.",
+                init: "12-lead ECG and Stat Serum Potassium.",
+                diag: "ECG showing hyperkalemic conduction delays.",
+                firstline: "10% IV Calcium Gluconate (10 mL over 2-5 minutes).",
+                defline: "Shift K+ intracellularly (IV Insulin + D50, Albuterol) -> Excrete K+ (Furosemide, Patiromer, or Emergency Hemodialysis)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "What is the primary mechanism of secondary hyperparathyroidism in Chronic Kidney Disease?",
+                options: ["Hypercalcemia and elevated Vitamin D", "Phosphate retention and impaired renal 1-alpha-hydroxylation of Vitamin D", "Primary parathyroid adenoma", "Excessive calcitonin secretion"],
+                correct: 1,
+                exp: "Declining GFR causes phosphate retention and loss of functional renal tissue capable of converting 25-OH Vitamin D to active 1,25-(OH)2 Vitamin D (Calcitriol). Hypocalcemia and hyperphosphatemia stimulate parathyroid chief cells to secrete PTH.",
+                triad: "CKD Mineral Bone Disease Triad: Hyperphosphatemia, Hypocalcemia, Elevated Intact PTH (Secondary Hyperparathyroidism).",
+                init: "Serum Calcium, Phosphate, Active Vitamin D, and Intact PTH.",
+                diag: "Biochemical profile confirming secondary hyperparathyroidism in CKD.",
+                firstline: "Dietary Phosphate restriction + Dietary Phosphate Binders (Sevelamer or Calcium Acetate).",
+                defline: "Active Vitamin D analogs (Calcitriol or Paricalcitol) ± Calcimimetics (Cinacalcet)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A patient with End-Stage Renal Disease on hemodialysis presents with pericardial friction rub, pleuritic chest pain, and somnolence. What is the definitive management?",
+                options: ["Oral NSAIDs (Indomethacin)", "Urgent Hemodialysis", "Pericardiocentesis", "Systemic Corticosteroids"],
+                correct: 1,
+                exp: "Uremic Pericarditis is an absolute indication for urgent initiation or intensification of hemodialysis. Unlike other forms of pericarditis, anticoagulants during dialysis are avoided to prevent hemorrhagic tamponade.",
+                triad: "Uremic Pericarditis Triad: Pericardial Friction Rub, Azotemia (BUN > 60-100 mg/dL), Absence of classic ST-segment elevation.",
+                init: "Serum BUN/Creatinine and Echocardiogram.",
+                diag: "Clinical detection of pericardial friction rub in a uremic patient.",
+                firstline: "Urgent Hemodialysis.",
+                defline: "Daily Intensive Hemodialysis."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "Which arterial vessel is most commonly utilized to construct a autogenous arteriovenous fistula (AVF) for permanent vascular access in hemodialysis?",
+                options: ["Radial Artery to Cephalic Vein (Cimino-Brescia Fistula)", "Brachial Artery to Basilic Vein", "Femoral Artery to Saphenous Vein", "Ulnar Artery to Basilic Vein"],
+                correct: 0,
+                exp: "The Radiocephalic arteriovenous fistula (Cimino-Brescia fistula) at the wrist is the gold-standard initial vascular access choice for hemodialysis due to its long patency rates and low risk of complications.",
+                triad: "AVF Assessment: Palpable Thrill, Continuous Bruit, Minimum 6 weeks maturation time.",
+                init: "Duplex Ultrasound Vessel Mapping.",
+                diag: "Vessel Mapping showing radial artery diameter > 2mm and cephalic vein > 2.5mm.",
+                firstline: "Radiocephalic AV Fistula creation.",
+                defline: "Surgical AVF creation and maturation."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A patient 5 days post-renal transplantation presents with fever, graft tenderness, oliguria, and rising serum creatinine. Biopsy shows dense lymphocytic infiltration of the renal interstitium and tubulitis. What type of rejection is this?",
+                options: ["Hyperacute Rejection", "Acute Cellular Rejection", "Acute Antibody-Mediated Rejection", "Chronic Allograft Nephropathy"],
+                correct: 1,
+                exp: "Acute Cellular Rejection occurs days to months post-transplant and is mediated by host T-lymphocytes attacking donor HLA antigens. Histology reveals interstitial T-cell infiltration and tubulitis.",
+                triad: "Acute Graft Rejection Triad: Fever/Graft tenderness, Acute decrease in urine output, Rising Serum Creatinine.",
+                init: "Renal Allograft Doppler Ultrasound.",
+                diag: "Renal Allograft Core Needle Biopsy (Banff criteria confirmation).",
+                firstline: "High-dose Pulse IV Methylprednisolone (500-1000 mg daily for 3 days).",
+                defline: "IV Steroid Pulses (Antithymocyte Globulin / ATG if steroid-resistant)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "Hyperacute rejection occurring within minutes to hours of renal transplantation is caused by which pre-existing immune mechanism?",
+                options: ["Pre-formed Donor-Specific Cytotoxic Antibodies (Type II Hypersensitivity)", "Recipient T-cell activation (Type IV Hypersensitivity)", "Immune Complex deposition (Type III Hypersensitivity)", "Graft-versus-host reaction"],
+                correct: 0,
+                exp: "Hyperacute rejection is caused by pre-existing anti-donor ABO or HLA antibodies binding to graft vascular endothelium, activating complement and causing immediate intravascular thrombosis and graft necrosis.",
+                triad: "Hyperacute Rejection Triad: Intraoperative blue/mottled cyanotic graft, Thrombosis of graft vessels, Pre-formed antibodies.",
+                init: "Pre-transplant Panel Reactive Antibody (PRA) and Donor-Recipient Crossmatch.",
+                diag: "Histology showing widespread microvascular thrombosis and neutrophilic arteritis.",
+                firstline: "Immediate Surgical Removal of the Allograft.",
+                defline: "Prevention via rigorous pre-transplant Lymphocytotoxic Crossmatching."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "Which immunosuppressive agent utilized in renal transplantation acts as a Calcineurin Inhibitor and is associated with nephrotoxicity, gingival hyperplasia, and hirsutism?",
+                options: ["Tacrolimus", "Cyclosporine", "Mycophenolate Mofetil", "Sirolimus"],
+                correct: 1,
+                exp: "Cyclosporine inhibits calcineurin, preventing IL-2 transcription. Characteristic side effects differentiating it from Tacrolimus include Gingival Hyperplasia and Hirsutism (both cause nephrotoxicity, hypertension, and tremor).",
+                triad: "Cyclosporine Toxicity Triad: Afferent arteriolar vasoconstriction (Nephrotoxicity), Gingival Hyperplasia, Hirsutism.",
+                init: "Trough Blood Cyclosporine level monitoring.",
+                diag: "Biopsy showing isometric tubular vacuolization and arteriolar hyalinosis.",
+                firstline: "Dose reduction of Cyclosporine.",
+                defline: "Switching to Tacrolimus or Belatacept."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 60-year-old female presents with severe left flank pain, high fever (39.5°C), rigors, and costovertebral angle tenderness. Urinalysis shows WBC casts and leukocyte esterase. What is the diagnosis?",
+                options: ["Acute Uncomplicated Cystitis", "Acute Pyelonephritis", "Renal Abscess", "Acute Glomerulonephritis"],
+                correct: 1,
+                exp: "Acute Pyelonephritis is an upper UTI involving the renal parenchyma/pelvis. Pathognomonic finding on urinalysis is White Blood Cell (WBC) casts, distinguishing it from lower cystitis.",
+                triad: "Acute Pyelonephritis Triad: High Fever/Chills, Costovertebral Angle (CVA) Tenderness, WBC Casts in Urine.",
+                init: "Urinalysis and Urine/Blood Cultures.",
+                diag: "Clinical diagnosis + Contrast-Enhanced Abdominal CT (if non-responsive to antibiotics after 48-72 hours).",
+                firstline: "Empiric IV Fluoroquinolone (Ciprofloxacin) or Ceftriaxone.",
+                defline: "Targeted oral antimicrobial therapy for 10-14 days based on culture sensitivity."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A patient with acute pyelonephritis remains persistently febrile despite 72 hours of appropriate IV broad-spectrum antibiotic therapy. What complication should be suspected?",
+                options: ["Renal Abscess or Perinephric Abscess", "Acute Tubular Necrosis", "Renal Cell Carcinoma", "Renal Vein Thrombosis"],
+                correct: 0,
+                exp: "Persistence of fever and leukocytosis beyond 48-72 hours of targeted IV antibiotic therapy for pyelonephritis warrants renal imaging (CT scan) to rule out Renal or Perinephric Abscess.",
+                triad: "Renal Abscess Triad: Persistent pyelonephritis fever >72 hours on antibiotics, Flank mass/pain, Leukocytosis.",
+                init: "Renal Ultrasound.",
+                diag: "Contrast-Enhanced CT Abdomen/Pelvis.",
+                firstline: "IV Antibiotics + Percutaneous Image-Guided Catheter Drainage (for abscess > 3 cm).",
+                defline: "Percutaneous drainage or open surgical drainage."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 30-year-old female presents with frequency, urgency, and dysuria without fever or flank pain. Urinalysis reveals positive nitrites and leukocyte esterase. What is the first-line antibiotic treatment for uncomplicated acute cystitis?",
+                options: ["Nitrofurantoin or Trimethoprim-Sulfamethoxazole (TMP-SMX) or Fosfomycin", "Ciprofloxacin for 14 days", "Ceftriaxone IV", "Amoxicillin monotherapy"],
+                correct: 0,
+                exp: "First-line empirical treatment options for uncomplicated lower UTI (acute cystitis) in non-pregnant women are Nitrofurantoin (100mg BID for 5 days), TMP-SMX (for 3 days), or Single-dose Fosfomycin (3g).",
+                triad: "Uncomplicated Cystitis Triad: Dysuria, Urinary Urgency, Increased Frequency (without systemic symptoms).",
+                init: "Urine Dipstick.",
+                diag: "Clinical symptoms + Positive dipstick (Nitrites/Leukocyte esterase).",
+                firstline: "Nitrofurantoin (100 mg PO BID for 5 days).",
+                defline: "Empiric first-line oral antibiotic course."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A 25-year-old pregnant female at 14 weeks gestation has a routine urine culture showing >10^5 CFU/mL of E. coli. She has no urinary symptoms. What is the recommended management?",
+                options: ["No treatment required for asymptomatic state", "Treat with oral Nitrofurantoin or Amoxicillin-Clavulanate for 5-7 days", "Treat with Ciprofloxacin", "Recheck urine culture at delivery"],
+                correct: 1,
+                exp: "Asymptomatic bacteriuria MUST always be screened for and treated in pregnant women because untreated bacteriuria leads to Acute Pyelonephritis in 20-40% of cases and increases pre-term labor risk.",
+                triad: "Pregnancy Bacteriuria Goals: Screen at 12-16 weeks, Treat asymptomatic state, Prevent pyelonephritis.",
+                init: "Screening Urine Culture at first prenatal visit.",
+                diag: "Quantitative Urine Culture showing >= 10^5 CFU/mL of a single pathogen.",
+                firstline: "Nitrofurantoin (safe in 2nd/3rd trimester up to 36 weeks) or Amoxicillin-Clavulanate or Cephalexin for 5-7 days.",
+                defline: "Targeted oral antibiotic course + Repeat confirmation culture 1-2 weeks post-treatment."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "What congenital urological anomaly is characterized by ectopic insertion of the ureter superior to the external urethral sphincter in males, but inferior to the external sphincter in females?",
+                options: ["Ureterocele", "Ectopic Ureter", "Posterior Urethral Valves", "Vesicoureteral Reflux"],
+                correct: 1,
+                exp: "In females, an ectopic ureter can insert distal to the external urethral sphincter (into vagina, urethra, or vestibule), presenting as continuous urinary dribbling despite normal voiding patterns.",
+                triad: "Female Ectopic Ureter Triad: Continuous incontinence/dribbling, Normal voiding habit, Duplex kidney system.",
+                init: "Renal and Pelvic Ultrasound.",
+                diag: "CT Urogram or MR Urogram.",
+                firstline: "Antibiotic prophylaxis for UTIs.",
+                defline: "Surgical Reimplantation (Ureteroneocystostomy) or Heminephrectomy (if upper pole dysplastic)."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NRE Made Easy",
+                q: "A newborn male infant is noted to have a palpable lower abdominal mass (distended bladder), weak urinary stream, and bilateral hydronephrosis on ultrasound. What is the most common cause of congenital lower urinary tract obstruction in males?",
+                options: ["Ureteropelvic Junction Obstruction", "Posterior Urethral Valves (PUV)", "Ureterocele", "Vesicoureteral Reflux"],
+                correct: 1,
+                exp: "Posterior Urethral Valves (PUV) are congenital mucosal folds in the prostatic urethra occurring exclusively in males, causing bladder outlet obstruction, keyhole sign on ultrasound, and renal dysplasia.",
+                triad: "PUV Triad: Dilation of prostatic urethra ('Keyhole sign' on US), Weak/dribbling stream, Bilateral Hydronephrosis.",
+                init: "Postnatal Renal and Bladder Ultrasound.",
+                diag: "Voiding Cystourethrogram (VCUG) showing dilated posterior urethra and valve bladders.",
+                firstline: "Emergency Bladder Drainage via Feeding Tube/Foley catheter.",
+                defline: "Endoscopic Transurethral Valve Ablation."
+            },
+            {
+                subject: "Renal & Urology",
+                source: "NUMS University",
+                q: "A 3-year-old girl with recurrent pyelonephritis undergoes Voiding Cystourethrogram (VCUG), which demonstrates retrograde flow of contrast into a dilated ureter and renal pelvis with blunting of renal calyces (Grade III). What is the diagnosis?",
+                options: ["Posterior Urethral Valves", "Vesicoureteral Reflux (VUR)", "Ureteropelvic Junction Obstruction", "Multicystic Dysplastic Kidney"],
+                correct: 1,
+                exp: "Vesicoureteral Reflux (VUR) is retrograde flow of urine from bladder into the upper urinary tract due to incompetent ureterovesical junction (UVJ). VCUG is the diagnostic standard.",
+                triad: "VUR Triad: Recurrent pediatric UTIs, Renal scarring on DMSA scan, Ureteral contrast reflux on VCUG.",
+                init: "Renal Ultrasound.",
+                diag: "Voiding Cystourethrogram (VCUG).",
+                firstline: "Low-dose Prophylactic Oral Antibiotics (Trimethoprim) + Timed Voiding.",
+                defline: "Endoscopic Subureteric Injection (Deflux) or Surgical Ureteral Reimplantation (for high-grade Grade IV-V or persistent reflux)."
+            }
+        ];
+
+        // State Variables
+        let questions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let answeredCount = 0;
+
+        // Initialize / Load from localStorage
+        function initApp() {
+            const savedState = localStorage.getItem(STORAGE_KEY);
+            if (savedState) {
+                try {
+                    const parsed = JSON.parse(savedState);
+                    questions = parsed.questions;
+                    currentIndex = parsed.currentIndex || 0;
+                } catch(e) {
+                    questions = [...rawExamQuestions];
+                }
+            } else {
+                questions = [...rawExamQuestions];
+            }
+
+            // Calculate Score and Progress
+            score = 0;
+            answeredCount = 0;
+            questions.forEach(q => {
+                if (q.userAnswer !== undefined) {
+                    answeredCount++;
+                    if (q.userAnswer === q.correct) score++;
+                }
+            });
+
+            updateHeader();
+            loadQuestion();
+        }
+
+        function saveState() {
+            const state = {
+                questions: questions,
+                currentIndex: currentIndex
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        // Header Update
+        function updateHeader() {
+            document.getElementById('score-counter').innerText = `${score} / ${answeredCount}`;
+            document.getElementById('progress-counter').innerText = `${answeredCount} / 100`;
+        }
+
+        // Render Navigator Grid
+        function renderGrid() {
+            const gridContainer = document.getElementById('question-grid');
+            gridContainer.innerHTML = '';
+            
+            const filterVal = document.getElementById('discipline-filter').value;
+
+            questions.forEach((q, idx) => {
+                if (filterVal !== 'ALL' && q.subject !== filterVal) return;
+
+                const btn = document.createElement('button');
+                btn.innerText = idx + 1;
+                
+                let bgClass = "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100";
+                if (q.userAnswer !== undefined) {
+                    if (q.userAnswer === q.correct) {
+                        bgClass = "bg-green-500 border-green-600 text-white font-bold";
+                    } else {
+                        bgClass = "bg-red-500 border-red-600 text-white font-bold";
+                    }
+                }
+
+                btn.className = `p-1.5 text-xs font-semibold rounded border ${bgClass} ${
+                    idx === currentIndex ? 'ring-2 ring-indigo-600 font-extrabold' : ''
+                }`;
+
+                btn.onclick = () => {
+                    currentIndex = idx;
+                    saveState();
+                    loadQuestion();
+                };
+
+                gridContainer.appendChild(btn);
+            });
+        }
+
+        // Load Question View
+        function loadQuestion() {
+            if (questions.length === 0) return;
+            const q = questions[currentIndex];
+
+            document.getElementById('question-number-badge').innerText = `Question ${currentIndex + 1} of 100`;
+            document.getElementById('subject-badge').innerText = q.subject;
+            document.getElementById('source-badge').innerText = q.source;
+            document.getElementById('question-text').innerText = q.q;
+
+            // Render Options
+            const optContainer = document.getElementById('options-container');
+            optContainer.innerHTML = '';
+
+            q.options.forEach((optStr, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full text-left p-3.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-sm font-medium flex items-start space-x-3`;
+                
+                const letter = String.fromCharCode(65 + optIdx);
+                btn.innerHTML = `<span class="font-bold text-indigo-600 flex-shrink-0">${letter}.</span><span class="flex-grow">${optStr}</span>`;
+
+                if (q.userAnswer !== undefined) {
+                    btn.disabled = true;
+                    if (optIdx === q.correct) {
+                        btn.classList.add(q.userAnswer === q.correct ? 'correct-selected' : 'correct-unselected');
+                    } else if (optIdx === q.userAnswer) {
+                        btn.classList.add('wrong-selected');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                }
+
+                optContainer.appendChild(btn);
+            });
+
+            // Explanation Box Handling
+            const expBox = document.getElementById('explanation-box');
+            if (q.userAnswer !== undefined) {
+                document.getElementById('exp-core').innerText = q.exp;
+                document.getElementById('exp-triad').innerText = q.triad;
+                document.getElementById('exp-init').innerText = q.init;
+                document.getElementById('exp-diag').innerText = q.diag;
+                document.getElementById('exp-firstline').innerText = q.firstline;
+                document.getElementById('exp-defline').innerText = q.defline;
+                expBox.classList.remove('hidden');
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            // Navigation buttons state
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').innerText = currentIndex === questions.length - 1 ? 'Finish Exam' : 'Next Question';
+
+            renderGrid();
+        }
+
+        // Option Click
+        function selectOption(index) {
+            const q = questions[currentIndex];
+            if (q.userAnswer !== undefined) return;
+
+            q.userAnswer = index;
+            if (index === q.correct) {
+                score++;
+            }
+            answeredCount++;
+
+            updateHeader();
+            saveState();
+            loadQuestion();
+        }
+
+        // Event Listeners
+        document.getElementById('prev-btn').onclick = () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                saveState();
+                loadQuestion();
+            }
+        };
+
+        document.getElementById('next-btn').onclick = () => {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                saveState();
+                loadQuestion();
+            }
+        };
+
+        document.getElementById('discipline-filter').onchange = (e) => {
+            const filterVal = e.target.value;
+            if (filterVal !== 'ALL') {
+                const firstMatch = questions.findIndex(q => q.subject === filterVal);
+                if (firstMatch !== -1) currentIndex = firstMatch;
+            } else {
+                currentIndex = 0;
+            }
+            saveState();
+            loadQuestion();
+        };
+
+        document.getElementById('reset-btn').onclick = () => {
+            if (confirm("Are you sure you want to reset all exam progress and answers?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                questions = rawExamQuestions.map(q => ({...q, userAnswer: undefined}));
+                currentIndex = 0;
+                score = 0;
+                answeredCount = 0;
+                updateHeader();
+                saveState();
+                loadQuestion();
+            }
+        };
+
+        // Run
+        initApp();
+    </script>
+</body>
+</html>
